@@ -1,0 +1,89 @@
+[
+  {
+    "kind": "analysis",
+    "repo": "payments-ui",
+    "label": "Rapid tech-debt analysis",
+    "mode": "aws-managed",
+    "command": "atx ct remote analysis --type rapid-techdebt-analysis --sources github-demo --repos payments-ui --mode aws-managed",
+    "durationSec": 90,
+    "analysisType": "rapid-techdebt-analysis",
+    "findings": 6,
+    "id": "job-yxd50y",
+    "origin": "CLI",
+    "startedAt": 1789507885274
+  },
+  {
+    "kind": "analysis",
+    "repo": "payments-ui",
+    "label": "Rapid tech-debt analysis",
+    "mode": "aws-managed",
+    "command": "atx ct remote analysis --type rapid-techdebt-analysis --sources github-demo --repos payments-ui --mode aws-managed",
+    "durationSec": 90,
+    "analysisType": "rapid-techdebt-analysis",
+    "findings": 6,
+    "id": "job-12cc1j",
+    "origin": "CLI",
+    "startedAt": 1788389668576
+  },
+  {
+    "kind": "analysis",
+    "repo": "payments-ui",
+    "label": "Rapid tech-debt analysis",
+    "mode": "aws-managed",
+    "command": "atx ct remote analysis --type rapid-techdebt-analysis --sources github-demo --repos payments-ui --mode aws-managed",
+    "durationSec": 90,
+    "analysisType": "rapid-techdebt-analysis",
+    "findings": 6,
+    "id": "job-nvu4ux",
+    "origin": "CLI",
+    "startedAt": 1788290679730
+  },
+  {
+    "kind": "analysis",
+    "repo": "payments-ui",
+    "label": "Rapid tech-debt analysis",
+    "mode": "aws-managed",
+    "command": "atx ct remote analysis --type rapid-techdebt-analysis --sources github-demo --repos payments-ui --mode aws-managed",
+    "durationSec": 90,
+    "analysisType": "rapid-techdebt-analysis",
+    "findings": 6,
+    "id": "job-hxzddu",
+    "origin": "CLI",
+    "startedAt": 1788280531643
+  },
+  {
+    "kind": "analysis",
+    "repo": "payments-ui",
+    "label": "Rapid tech-debt analysis",
+    "mode": "interactive",
+    "command": "atx ct analyze --type rapid-techdebt-analysis --repos payments-ui",
+    "durationSec": 1,
+    "analysisType": "rapid-techdebt-analysis",
+    "findings": 4,
+    "findingsList": [
+      {
+        "label": "AngularJS 1.7 is end-of-life — unsupported since Jan 2022",
+        "severity": "High",
+        "repo": "payments-ui"
+      },
+      {
+        "label": "Node 16 / Webpack 4 build toolchain is outdated",
+        "severity": "Medium",
+        "repo": "payments-ui"
+      },
+      {
+        "label": "3 circular dependencies in routing",
+        "severity": "Medium",
+        "repo": "payments-ui"
+      },
+      {
+        "label": "Limited test coverage on critical payment paths",
+        "severity": "Medium",
+        "repo": "payments-ui"
+      }
+    ],
+    "id": "job-0nltgs",
+    "origin": "CLI",
+    "startedAt": 1788235584770
+  }
+]
