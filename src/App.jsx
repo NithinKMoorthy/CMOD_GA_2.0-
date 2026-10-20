@@ -163,6 +163,8 @@ const mockupScreens = [
   ['improved-rail-remediation', 'A11', 'Remediation detail'],
   ['improved-rail-analyses', 'A12', 'Analyses'],
   ['improved-rail-run-analysis', 'A13', 'Run new analysis'],
+  ['improved-rail-repo-plan', 'A18', 'Repository plan'],
+  ['improved-rail-plan', 'A12', 'Generated plan'],
 ];
 
 // AWS Transform brand mark — used for the chat bot / assistant.
@@ -264,9 +266,9 @@ function ImprovedAssistantControl({ context, onNavigate }) {
 function ImprovedResourcePage({ page, onNavigate }) {
   const content = {
     "What's new": { eyebrow: 'Product updates', title: "What's new in Continuous Modernization", subtitle: 'Recent capabilities, workflow improvements, and service announcements.', cards: [['Aug 27, 2026', 'GitHub App organization connections', 'Connect repositories with durable, organization-owned authorization and scoped access.'], ['Aug 20, 2026', 'Remediation approval queue', 'Review branches, applied changes, validation, and approval state from one focused queue.'], ['Aug 12, 2026', 'Phase-level analysis progress', 'Track repository heartbeats, active phases, failures, and estimated completion time.']] },
-    Documentation: { eyebrow: 'Documentation', title: 'Continuous Modernization documentation', subtitle: 'Guidance organized around the modernization lifecycle.', cards: [['Get started', 'Set up your first portfolio', 'Prepare infrastructure, install the GitHub App, select repositories, and run a baseline.'], ['Understand', 'Analyze and prioritize findings', 'Learn how analysis types, findings, scoring, and initiatives fit together.'], ['Remediate', 'Create and validate changes', 'Review transformation scope, GitHub branches, validation checks, approvals, and merge state.']] },
+    Documentation: { eyebrow: 'Documentation', title: 'Continuous Modernization documentation', subtitle: 'Guidance organized around the modernization lifecycle.', cards: [['Get started', 'Set up your first portfolio', 'Prepare infrastructure, install the GitHub App, select repositories, and run a baseline.'], ['Understand', 'Analyze and prioritize findings', 'Learn how analysis types, findings, scoring, and exposures fit together.'], ['Remediate', 'Create and validate changes', 'Review transformation scope, GitHub branches, validation checks, approvals, and merge state.']] },
     'Blog posts': { eyebrow: 'From the AWS Transform team', title: 'Continuous Modernization blog', subtitle: 'Practical guidance for continuously improving enterprise software estates.', cards: [['8 min read', 'From findings to validated resolution', 'Design a repeatable lifecycle that connects technical-debt discovery to safe, approved changes.'], ['6 min read', 'Why organization-owned source access matters', 'Use GitHub Apps to improve governance, auditability, and credential lifecycle management.'], ['10 min read', 'Building trust in long-running analysis', 'Give teams phase-level status, repository heartbeats, errors, and actionable recovery.']] },
-    'Success stories': { eyebrow: 'Customer outcomes', title: 'Continuous Modernization success stories', subtitle: 'How teams reduce technical debt while keeping developers in control.', cards: [['Financial services', '42% faster runtime modernization', 'A platform team prioritized 180 repositories and validated upgrade branches before owner approval.'], ['Digital commerce', '12,000 findings organized into 340 initiatives', 'Related findings were grouped into actionable work with transparent impact and effort scoring.'], ['Media and entertainment', '90% less credential maintenance', 'GitHub App connections replaced employee-owned tokens across 23 organizations.']] },
+    'Success stories': { eyebrow: 'Customer outcomes', title: 'Continuous Modernization success stories', subtitle: 'How teams reduce technical debt while keeping developers in control.', cards: [['Financial services', '42% faster runtime modernization', 'A platform team prioritized 180 repositories and validated upgrade branches before owner approval.'], ['Digital commerce', '12,000 findings organized into 340 exposures', 'Related findings were grouped into actionable work with transparent impact and effort scoring.'], ['Media and entertainment', '90% less credential maintenance', 'GitHub App connections replaced employee-owned tokens across 23 organizations.']] },
   }[page];
   return <RailShell active={page} onNavigate={onNavigate}><main className="resource-main"><span className="eyebrow">{content.eyebrow}</span><h1>{content.title}</h1><p className="resource-subtitle">{content.subtitle}</p><div className="resource-card-grid">{content.cards.map(([meta, title, description]) => <article className="card" key={title}><span>{meta}</span><h2>{title}</h2><p>{description}</p><button className="link-button">Read more <Icon name="forward" /></button></article>)}</div><section className="resource-help-card"><div><h2>Looking for something specific?</h2><p>Search lifecycle guidance, troubleshooting, source authorization, and remediation workflows.</p></div><SearchBox value="" onChange={() => {}} placeholder="Search Continuous Modernization" /></section></main></RailShell>;
 }
@@ -589,7 +591,7 @@ const INITIATIVES = [
   { id: 'secrets', about: 'Exposed credentials', detectedBy: 'Secret scanning', dueTone: 'risk', stage: 'next', title: 'Remove exposed secrets', summary: 'Move credentials to AWS Secrets Manager and rotate them in each repository', kind: 'Campaign', plan: '1 skill · 3 repositories', due: 'Aug 31', effort: '1–2 days', readiness: 'skill' },
   { id: 'base-images', about: 'Vulnerable base images', detectedBy: 'Container image scan', dueTone: '', stage: 'next', title: 'Update container base images', summary: 'amazonlinux:2 → Amazon Linux 2023, which clears the OpenSSL, glibc and curl CVEs and removes Python 2.7', kind: 'Campaign', plan: '1 custom TD · 3 repositories', due: 'Sep 8', effort: '1–2 days', readiness: 'custom' },
   { id: 'mylearning', detectedBy: 'Static analysis', dueTone: '', stage: 'next', title: 'MyLearning: add tests, then upgrade React', summary: 'Test coverage first, so the React 18 upgrade can be verified', kind: 'Bundle', plan: '2 fixes · Tests, then React · 1 pull request', effort: '1 week', readiness: 'skill' },
-  { id: 'java', about: 'End-of-life runtime and framework', detectedBy: 'Dependency analysis', dueTone: '', stage: 'next', title: 'Modernize the Java services', summary: 'Java 11 → 21 first, because Spring Boot 3 requires it; then AWS SDK for Java v2 and SLF4J', kind: 'Migration', plan: 'Java 21 first · Spring Boot 3 builds on it', pathNote: '2 managed TDs · run in order', due: 'Nov 30', effort: '1–2 weeks', readiness: 'managed', recommended: true },
+  { id: 'java', about: 'End-of-life runtime and framework', detectedBy: 'Dependency analysis', dueTone: '', stage: 'next', title: 'Modernize the Java services', summary: 'Java 11 → 21 first, because Spring Boot 3 requires it; then AWS SDK for Java v2 and SLF4J', kind: 'Migration', plan: 'Java 21 first · Spring Boot 3 builds on it', due: 'Nov 30', effort: '1–2 weeks', readiness: 'managed', recommended: true },
   { id: 'access', detectedBy: 'Static analysis', dueTone: '', stage: 'next', title: 'Harden access and data protection', summary: 'IAM scope, session expiry, PII redaction and encryption in payments-service', kind: 'Campaign', plan: '3 fixes · 1 pull request', due: 'Oct 12', effort: '1–2 weeks', readiness: 'skill' },
   { id: 'n-plus-one', detectedBy: 'Code analysis', stage: 'next', title: 'N+1 queries in order history', kind: 'Standalone', effort: '3–5 days', readiness: 'skill' },
   { id: 'cicd', about: 'Manual builds and deploys', detectedBy: 'Static analysis', stage: 'next', title: 'Add CI/CD pipelines', summary: 'A pipeline that builds, tests and deploys on merge, in each repository', kind: 'Campaign', plan: '1 skill · 2 repositories', effort: '1 week', readiness: 'skill' },
@@ -599,9 +601,9 @@ const INITIATIVES = [
   { id: 'health-check', detectedBy: 'Code analysis', stage: 'next', title: 'No health check endpoint', kind: 'Standalone', effort: 'Under 1 day', readiness: 'skill' },
   { id: 'console-logging', detectedBy: 'Code analysis', stage: 'next', title: 'Console logging left in production build', kind: 'Standalone', effort: 'Under 1 day', readiness: 'custom' },
   { id: 'sync-reads', detectedBy: 'Code analysis', stage: 'next', title: 'Synchronous file reads at startup', kind: 'Standalone', effort: '1–2 days', readiness: 'skill' },
-  { id: 'expo', detectedBy: 'Dependency analysis', dueTone: 'risk', stage: 'progress', title: 'Upgrade MKPMobile to Expo SDK 51', summary: 'Expo SDK, deprecated modules and native iOS APIs', kind: 'Bundle', plan: '1 fix · 3 findings · 1 pull request', due: 'Aug 31', effort: '2–3 weeks', readiness: 'approval', verified: '0 of 3 verified' },
-  { id: 'node', about: 'End-of-life runtime · SDK and packages', detectedBy: 'Dependency analysis', dueTone: 'risk', stage: 'progress', title: 'Modernize the Node.js services', summary: 'Node.js 20, then AWS SDK v3 and patched npm packages', kind: 'Migration', plan: '3 fixes · Node.js 20 first · SDK and packages build on it', due: 'Sep 30', effort: '1 week', readiness: 'blocked', verified: '17 of 28 verified' },
-  { id: 'angular', detectedBy: 'Dependency analysis', dueTone: '', stage: 'progress', title: 'Migrate payments-ui from AngularJS to React', summary: 'Includes the test gap, so each phase can be verified', kind: 'Bundle', plan: '2 fixes · Phase 3 of 5', effort: '2–3 weeks', readiness: 'applying', verified: '0 of 3 verified' },
+  { id: 'expo', detectedBy: 'Dependency analysis', dueTone: 'risk', stage: 'progress', title: 'Upgrade MKPMobile to Expo SDK 51', summary: 'Expo SDK, deprecated modules and native iOS APIs', kind: 'Bundle', plan: '1 fix · 3 findings · 1 pull request', due: 'Aug 31', effort: '2–3 weeks', readiness: 'approval', verified: '0 of 3 verified', tags: ['EOL', 'Internet-facing', 'Breaking changes'] },
+  { id: 'node', about: 'End-of-life runtime · SDK and packages', detectedBy: 'Dependency analysis', dueTone: 'risk', stage: 'progress', title: 'Modernize the Node.js services', summary: 'Node.js 20, then AWS SDK v3 and patched npm packages', kind: 'Migration', plan: '3 fixes · Node.js 20 first · SDK and packages build on it', due: 'Sep 30', effort: '1 week', readiness: 'blocked', verified: '17 of 28 verified', tags: ['EOL', 'Known CVEs', 'Prod-critical', 'Internet-facing', 'Breaking changes', 'PCI scope'] },
+  { id: 'angular', detectedBy: 'Dependency analysis', dueTone: '', stage: 'progress', title: 'Migrate payments-ui from AngularJS to React', summary: 'Includes the test gap, so each phase can be verified', kind: 'Bundle', plan: '2 fixes · Phase 3 of 5', effort: '2–3 weeks', readiness: 'applying', verified: '0 of 3 verified', tags: ['EOL', 'Internet-facing', 'PCI scope', 'Known CVEs', 'Breaking changes'] },
 ];
 const isStandalone = (item) => item.kind === 'Standalone';
 const READINESS = {
@@ -698,7 +700,7 @@ function FindingDetail({ finding, onClose, onNavigate }) {
       <section><h3>What was found</h3><p>{finding.description}</p></section>
       <section><h3>Recommendation</h3><p>{finding.recommendation}</p></section>
       <section><h3>Affected files</h3><ul className="finding-files">{finding.files.map((file) => <li key={file}><code>{file}</code></li>)}</ul></section>
-      {initiative && !isStandalone(initiative) && <section><h3>Initiative</h3><p><strong>{initiative.title}</strong> · {initiative.kind.toLowerCase()} · {ESTATE_FINDINGS.filter((item) => item.initiative === initiative.id).length} findings</p></section>}
+      {initiative && !isStandalone(initiative) && <section><h3>Exposure</h3><p><strong>{initiative.title}</strong> · {initiative.kind.toLowerCase()} · {ESTATE_FINDINGS.filter((item) => item.initiative === initiative.id).length} findings</p></section>}
       <section><h3>Remediation</h3>{finding.remediation ? <p>AWS Transform can fix this with <strong>{finding.remediation}</strong>.</p> : <p>No managed transformation matches this finding. AWS Transform drafted a specialized skill for it — review it before it runs.</p>}</section>
       <footer>{finding.status === 'In remediation' ? <Button onClick={() => onNavigate('improved-rail-remediations')}>View remediation</Button> : finding.remediation ? <Button onClick={() => openAuthorize(onNavigate, finding.initiative)}>Start remediation</Button> : <Button onClick={() => reviewSkill(initiative, onNavigate)}>Review skill</Button>}<Button variant="outline" onClick={onClose}>Close</Button></footer>
     </aside>
@@ -711,6 +713,69 @@ function initiativeRepos(initiative) {
   return [...counts].sort((a, b) => b[1] - a[1] || (b[0] === initiative.lead) - (a[0] === initiative.lead) || a[0].localeCompare(b[0])).map(([repo]) => repo);
 }
 const askRailChat = (prompt) => window.dispatchEvent(new CustomEvent('rail-chat-ask', { detail: prompt }));
+
+// A checkbox filter: pick any number of options, see the result count, then apply.
+// sections: [{ title?, options: [{ value, label, description?, count? }] }]
+function MultiSelectFilter({ label, sections, value, onChange, countFor, unit = 'finding', searchPlaceholder, width = 320 }) {
+  const [open, setOpen] = useState(false);
+  const [pending, setPending] = useState(value);
+  const [query, setQuery] = useState('');
+  const rootRef = useRef(null);
+  useEffect(() => {
+    if (!open) return undefined;
+    const onDown = (event) => { if (!rootRef.current?.contains(event.target)) setOpen(false); };
+    const onKey = (event) => event.key === 'Escape' && setOpen(false);
+    document.addEventListener('mousedown', onDown); document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('mousedown', onDown); document.removeEventListener('keydown', onKey); };
+  }, [open]);
+  const all = sections.flatMap((section) => section.options);
+  const toggleOpen = () => { if (!open) { setPending(value); setQuery(''); } setOpen(!open); };
+  const flip = (option) => setPending((current) => (current.includes(option) ? current.filter((item) => item !== option) : [...current, option]));
+  const q = query.trim().toLowerCase();
+  const shown = sections.map((section) => ({ ...section, options: section.options.filter((option) => !q || `${option.label} ${option.description || ''}`.toLowerCase().includes(q)) })).filter((section) => section.options.length);
+  const summary = value.length === 0 ? 'All' : value.length === 1 ? (all.find((option) => option.value === value[0])?.label || value[0]) : `${value.length} selected`;
+  const result = countFor(pending);
+  return <div className={`searchable-select ms-filter ${open ? 'open' : ''} ${value.length ? 'active' : ''}`} ref={rootRef}>
+    <button type="button" className="searchable-select-trigger" aria-haspopup="dialog" aria-expanded={open} onClick={toggleOpen}><span>{label}: {summary}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></button>
+    {open && <div className="ms-panel" role="dialog" aria-label={`Filter by ${label.toLowerCase()}`} style={{ width }}>
+      {searchPlaceholder && <label className="ms-search"><Icon name="search" /><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder={searchPlaceholder} aria-label={`Search ${label.toLowerCase()}`} /></label>}
+      <div className="ms-list">
+        {shown.map((section) => <div key={section.title || 'options'} className="ms-section">
+          {section.title && <div className="ms-section-title">{section.title}</div>}
+          {section.options.map((option) => <label key={option.value} className="ms-option">
+            <input type="checkbox" checked={pending.includes(option.value)} onChange={() => flip(option.value)} />
+            <span className="ms-option-text"><span>{option.label}</span>{option.description && <small>{option.description}</small>}</span>
+            {option.count !== undefined && <span className="ms-count">{option.count}</span>}
+          </label>)}
+        </div>)}
+        {shown.length === 0 && <div className="ms-empty">No matches</div>}
+      </div>
+      <div className="ms-footer"><button type="button" className="dash-link" onClick={() => setPending([])} disabled={!pending.length}>Clear</button>
+        <Button onClick={() => { onChange(pending); setOpen(false); }}>Show {result} {unit}{result === 1 ? '' : 's'}</Button></div>
+    </div>}
+  </div>;
+}
+
+// Plain-language groups for the Finding filter.
+const FINDING_CATEGORIES = [
+  ['CVEs and vulnerable packages', 'OpenSSL, glibc, curl, lodash…'],
+  ['End of life', 'Runtimes, frameworks and SDKs'],
+  ['Secrets'],
+  ['Access and data protection'],
+  ['Testing and CI'],
+  ['Architecture and performance'],
+  ['Code hygiene'],
+];
+function findingCategory(finding) {
+  const { category, title } = finding;
+  if (category === 'Secrets') return 'Secrets';
+  if (['Access control', 'Authentication', 'Data protection', 'Transport security', 'Information disclosure'].includes(category)) return 'Access and data protection';
+  if (category === 'Testing' || title === 'No CI/CD pipeline') return 'Testing and CI';
+  if (['Performance', 'Architecture', 'Operations'].includes(category)) return 'Architecture and performance';
+  if (category === 'Vulnerable dependencies' || /vulnerabilit|CVE/i.test(title) || title.startsWith('Outdated lodash')) return 'CVEs and vulnerable packages';
+  if (['Runtime upgrades', 'Framework upgrades', 'SDK migrations', 'Platform requirements', 'Container images'].includes(category) || /maintenance mode|end of (life|support)/i.test(title)) return 'End of life';
+  return 'Code hygiene';
+}
 
 // A select whose options can be filtered by typing (Cloudscape "select with filtering").
 function SearchableSelect({ label, value, options, onChange, allLabel = 'All', placeholder = 'Find', className = '' }) {
@@ -764,7 +829,7 @@ const TD_CATALOG = {
 };
 // Other ways to remediate an item. The customer can switch to any of these, or fix manually / accept the risk.
 const PATH_ALTERNATIVES = {
-  secrets: ['AWS/secrets-manager-migration'], access: ['AWS/iam-least-privilege'],
+  secrets: ['Custom/secrets-manager-migration'], access: ['AWS/iam-least-privilege'],
   cicd: ['AWS/github-actions-pipeline'], tls: ['AWS/elb-tls-policy-upgrade'], 'console-logging': ['AWS/strip-debug-logging'],
   'base-images': ['AWS/amazon-linux-2023-upgrade'], java: ['Custom/acme-jdk-baseline'],
 };
@@ -772,7 +837,7 @@ const pathOverrides = {};
 // Every transformation definition a customer can pick instead of the recommended path. `fits` lists the
 // items it's recommended for and how many of that item's findings it covers (null = all of them).
 const TD_LIBRARY = [
-  ['AWS/secrets-manager-migration', 'Moves hard-coded credentials to AWS Secrets Manager and loads them at startup', { secrets: 2 }],
+  ['Custom/secrets-manager-migration', 'Moves hard-coded credentials to AWS Secrets Manager and loads them at startup · Security team', { secrets: 2 }],
   ['Custom/acme-secrets-hygiene-v2', 'Config-file credentials and vault references · Security team', { secrets: null }],
   ['AWS/git-history-secret-purge', 'Removes committed secrets from repository history after rotation', { secrets: 1 }],
   ['AWS/iam-least-privilege', 'Scopes IAM policies to the actions each role uses', { access: 2 }],
@@ -804,15 +869,69 @@ const TD_LIBRARY = [
   ['Custom/acme-jdk-baseline-v3', 'Org JVM flags and base images · Platform team', { java: null }],
   ['Custom/acme-observability-baseline-v1', 'OpenTelemetry tracing and log correlation · Platform team', {}],
 ].map(([id, description, fits]) => ({ id, description, fits, kind: id.startsWith('AWS/') ? 'managed' : 'custom' }));
+// Work that's waiting on the customer: a saved plan with skills to approve, and TDs that finished generating.
+const SAVED_PLANS = { 'payments-hardening': { name: 'Payments hardening', items: ['access', 'payment-coupling'], created: 'Aug 26' } };
+const GENERATED_TDS = {
+  'n-plus-one': { id: 'Custom/batch-order-history-queries', description: 'Rewrites per-order line-item queries as one batched load · generated Aug 26', requested: 'Aug 25' },
+  'health-check': { id: 'Custom/spring-actuator-health-check', description: 'Enables Actuator /health and points the target group at it · generated Aug 25', requested: 'Aug 24' },
+};
+Object.entries(GENERATED_TDS).forEach(([item, td]) => TD_LIBRARY.push({ id: td.id, description: td.description, fits: { [item]: null }, kind: 'custom', generated: true }));
+// Work in flight across pages: remediation plans and specialized skills being generated. Pages subscribe with useWork().
+const WORK = { plans: [], skills: {}, seq: 1 };
+const workListeners = new Set();
+const updateWork = (change) => { change(WORK); workListeners.forEach((listener) => listener()); };
+function useWork() {
+  const [, setTick] = useState(0);
+  useEffect(() => { const listener = () => setTick((tick) => tick + 1); workListeners.add(listener); return () => workListeners.delete(listener); }, []);
+  return WORK;
+}
+const SKILL_SECONDS = 8;
+function startSkill(itemId, seconds = SKILL_SECONDS) {
+  updateWork((work) => { work.skills[itemId] = { status: 'generating', started: Date.now(), seconds }; });
+  window.setTimeout(() => updateWork((work) => { if (work.skills[itemId]) work.skills[itemId] = { ...work.skills[itemId], status: 'ready', finished: Date.now() }; }), seconds * 1000);
+}
+const ago = (time) => { const s = Math.max(0, Math.round((Date.now() - time) / 1000)); return s < 45 ? 'just now' : s < 3600 ? `${Math.round(s / 60)} min ago` : `${Math.round(s / 3600)} h ago`; };
+// Saved plans start out in the store; CI/CD's skill is already being drafted when the page opens.
+Object.entries(SAVED_PLANS).forEach(([id, plan]) => WORK.plans.push({ id, name: plan.name, itemIds: plan.items, ids: null, status: 'review', created: plan.created, reviewed: [] }));
+startSkill('cicd', 25);
+const planOf = (item) => [...WORK.plans].reverse().find((plan) => plan.itemIds.includes(item.id));
+const reviewStateOf = (item) => {
+  if (item.stage !== 'next') return null;
+  const plan = planOf(item);
+  if (plan) return { kind: 'plan', planId: plan.id, plan };
+  const skill = WORK.skills[item.id];
+  if (skill?.status === 'generating') return { kind: 'generating', skill };
+  if (skill?.status === 'ready') return { kind: 'skill-ready', skill };
+  if (GENERATED_TDS[item.id]) return { kind: 'td', td: GENERATED_TDS[item.id] };
+  return null;
+};
+const needsReview = (item) => { const state = reviewStateOf(item); return Boolean(state) && (state.kind === 'td' || state.kind === 'skill-ready' || (state.kind === 'plan' && ['review', 'ready'].includes(state.plan.status))); };
+const inProgress = (item) => { const state = reviewStateOf(item); return state?.kind === 'generating' || (state?.kind === 'plan' && state.plan.status === 'generating'); };
+// Standalone and low-severity items don't get a pre-drafted skill; you ask for one.
+const offersGenerate = (item) => item.stage === 'next' && !reviewStateOf(item) && itemNeedsSkill(item) && (isStandalone(item) || itemSeverity(item) === 'Low');
 const itemTds = (item) => [...new Set(findingsOfInitiative(item).map((finding) => finding.remediation).filter(Boolean))].map((label) => [label, ...(TD_CATALOG[label] || [label, 'managed'])]);
 const REPO_CONTEXT = {
-  [R.node]: { service: 'Order management', platform: 'Payments Platform', prodCritical: true, internetFacing: true },
-  [R.payments]: { service: 'Payments', platform: 'Payments Platform', prodCritical: true, internetFacing: false },
-  [R.ui]: { service: 'Payments', platform: 'Payments Platform', prodCritical: false, internetFacing: true },
+  [R.node]: { service: 'Order management', platform: 'Payments Platform', prodCritical: true, internetFacing: true, pci: true },
+  [R.payments]: { service: 'Payments', platform: 'Payments Platform', prodCritical: true, internetFacing: false, pci: true },
+  [R.ui]: { service: 'Payments', platform: 'Payments Platform', prodCritical: false, internetFacing: true, pci: true },
   [R.mobile]: { service: 'Mobile app', platform: 'Mobile Experience', prodCritical: false, internetFacing: true },
   [R.catalog]: { service: 'Clinic scheduling', platform: 'Developer Experience', prodCritical: false, internetFacing: false },
   [R.learning]: { service: 'Learning portal', platform: 'Learning Platform', prodCritical: false, internetFacing: false },
 };
+// Repositories that call each other's APIs, so their changes may need to merge in order.
+const REPO_LINKS = [[R.payments, R.ui], [R.payments, R.node], [R.mobile, R.node]];
+const linkedRepos = (repos) => repos.filter((name) => REPO_LINKS.some(([a, b]) => (a === name && repos.includes(b)) || (b === name && repos.includes(a))));
+const listRepos = (names) => (names.length <= 2 ? names.join(' and ') : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`);
+// Labelled warning for any group that spans linked repositories. onRemove(repo) offers a way out where it's possible.
+function CrossRepoWarning({ repos, onRemove, compact = false }) {
+  const linked = linkedRepos(repos);
+  if (linked.length < 2) return null;
+  return <div className={`xrepo-warning ${compact ? 'compact' : ''}`} role="note">
+    <span className="xrepo-label"><span aria-hidden="true">⚠</span> Cross-repo dependency</span>
+    <p>Some repos in this group may depend on each other: <strong>{linked.join(', ')}</strong>. CM can’t order their changes yet, so merging their PRs out of order could break the build. Remove the linked repos from this group, or merge their PRs in the right order yourself.</p>
+    {onRemove && <div className="xrepo-actions">{linked.map((name) => <button key={name} type="button" className="dash-link" onClick={() => onRemove(name)}>Remove {name}</button>)}</div>}
+  </div>;
+}
 const REPO_SOURCE = { [R.node]: 'github-demo', [R.mobile]: 'github-demo', [R.learning]: 'github-my-learning', [R.ui]: 'angularjs-app', [R.payments]: 'payments-platform', [R.catalog]: 'payments-platform' };
 // Within an initiative, findings keep the order AWS Transform will fix them in, most severe first.
 const findingsOfInitiative = (initiative) => ESTATE_FINDINGS.filter((item) => item.initiative === initiative.id).sort((a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity) || a.order - b.order);
@@ -844,6 +963,20 @@ function exposureOf(repos) {
 const itemNeedsSkill = (item) => findingsOfInitiative(item).some((finding) => !finding.remediation);
 const itemStatus = (item) => (item.stage === 'progress' ? READINESS[item.readiness] : itemNeedsSkill(item) ? ['Proposed', 'proposed'] : ['Ready', 'ready']);
 const exposureTags = (repos) => [repos.some((name) => REPO_CONTEXT[name]?.prodCritical) && 'Prod-critical', repos.some((name) => REPO_CONTEXT[name]?.internetFacing) && 'Internet-facing'].filter(Boolean);
+const RISK_TAGS = { secrets: ['Exposed credentials'], 'base-images': ['Known CVEs'], mylearning: ['EOL', 'Low test coverage'], java: ['EOL', 'Known CVEs'], access: ['Customer data'], cicd: ['Low test coverage'] };
+const scopeTags = (initiative, repos) => [
+  ...(RISK_TAGS[initiative.id] || []),
+  ...exposureTags(repos),
+  repos.some((name) => REPO_CONTEXT[name]?.pci) && 'PCI scope',
+  repos.some((name) => REPO_CONTEXT[name]?.archived) && 'Archived repo',
+].filter(Boolean);
+// Items that change the same files in the same repository have to run one after the other.
+function overlapNote(initiative) {
+  const touched = new Set(findingsOfInitiative(initiative).flatMap((finding) => finding.files.map((file) => `${finding.repo}:${file}`)));
+  const others = INITIATIVES.filter((item) => item.id !== initiative.id && item.stage === 'next' && findingsOfInitiative(item).some((finding) => finding.files.some((file) => touched.has(`${finding.repo}:${file}`))));
+  if (!others.length) return 'No overlap with other exposures · runs in parallel';
+  return `Changes the same files as ${others.map((item) => item.title).join(', ')} · runs in sequence`;
+}
 const tdKind = (tds) => (tds.every(([, , kind]) => kind === 'custom') ? 'custom' : 'managed');
 // Which remediation filter an item falls under, honoring a path the customer picked.
 function pathType(item, override) {
@@ -900,48 +1033,79 @@ function PathMenu({ item, override, onChoose, onClose, anchor }) {
   </div>;
 }
 
-function InitiativeRow({ initiative, expanded, onExpand, onNavigate, onOpenFinding, override, onOverride, repoFilter }) {
+const PROGRESS_NOTE = { applying: ['Applying changes', ''], blocked: ['Blocked by validation', 'blocked'], approval: ['Awaiting your approval', ''] };
+const RISK_TAG_TONE = { EOL: 'risk', 'Known CVEs': 'risk', 'Exposed credentials': 'risk', 'Customer data': 'risk', 'Breaking changes': 'warn', 'Low test coverage': 'warn' };
+// Up to four tags fit; past that, three are shown with a +N.
+const MAX_TAGS = 4;
+
+function InitiativeRow({ initiative, expanded, onExpand, onNavigate, onOpenFinding, override, onOverride, repoFilter, pickedIds, onPickFindings }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const changeRef = useRef(null);
-  const rows = findingsOfInitiative(initiative);
   const repos = initiativeRepos(initiative);
+  // Selection is per finding. With a repository filter on, only that repository's findings are shown.
+  const scoped = Boolean(repoFilter) && repos.includes(repoFilter);
+  const rows = scoped ? findingsOfInitiative(initiative).filter((finding) => finding.repo === repoFilter) : findingsOfInitiative(initiative);
+  const pickedHere = rows.filter((finding) => pickedIds.has(finding.id)).length;
+  const leftOut = scoped && pickedIds.size > 0 && pickedHere === 0;
   const severity = itemSeverity(initiative);
   const standalone = isStandalone(initiative);
   const detailsId = `item-${initiative.id}-details`;
-  const [picked, setPicked] = useState(() => new Set(rows.map((item) => item.id)));
-  const toggle = (id) => setPicked((set) => { const next = new Set(set); if (next.has(id)) next.delete(id); else next.add(id); return next; });
   const act = () => {
     if (initiative.stage === 'progress') return onNavigate('improved-rail-remediations');
     if (override?.kind === 'manual' || override?.kind === 'accept') return undefined;
+    if (review?.kind === 'plan') return trackedPlan.status === 'generating' ? undefined : openPlanById(onNavigate, review.planId);
+    if (review?.kind === 'generating') return undefined;
+    if (review?.kind === 'skill-ready') return reviewSkill(initiative, onNavigate, rows.length);
+    if (generate) return startSkill(initiative.id);
+    if (review?.kind === 'td') { pathOverrides[initiative.id] = { kind: 'td', id: review.td.id }; return openAuthorize(onNavigate, initiative.id); }
     const usesSkill = override ? override.kind === 'skill' : findingsOfInitiative(initiative).some((finding) => !finding.remediation);
-    return usesSkill ? reviewSkill(initiative, onNavigate, picked.size || rows.length) : openAuthorize(onNavigate, initiative.id);
+    return usesSkill ? reviewSkill(initiative, onNavigate, pickedHere || rows.length) : openAuthorize(onNavigate, initiative.id);
   };
   const plan = initiative.plan?.replace(/^\d+ fix(es)? · /, '');
   const single = repos.length === 1;
-  const meta = [standalone ? 'Standalone' : 'Initiative', !standalone && initiative.kind, single && REPO_CONTEXT[repos[0]]?.platform].filter(Boolean).join(' · ');
+  const meta = scoped
+    ? [standalone ? 'Standalone' : 'Exposure', !standalone && initiative.kind, !standalone && rows.length > 1 && `${rows.length} findings`, REPO_CONTEXT[repoFilter]?.platform].filter(Boolean).join(' · ')
+    : [standalone ? 'Standalone' : 'Exposure', !standalone && initiative.kind, !standalone && `${rows.length} finding${rows.length === 1 ? '' : 's'}`, single && REPO_CONTEXT[repos[0]]?.platform].filter(Boolean).join(' · ');
   // With a repository filter on, a multi-repo item is described by the filtered repository only.
   const focusRepo = repoFilter && repos.includes(repoFilter) ? repoFilter : null;
-  const tags = exposureTags(focusRepo ? [focusRepo] : repos);
-  const [pathLabel, pathIcon, pathTone, pathNote] = override ? overridePath(override, repos) : recommendedPath(initiative, repos);
-  const [statusLabel, statusTone] = override?.kind === 'manual' ? ['Manual fix', 'muted'] : override?.kind === 'accept' ? ['Risk accepted', 'muted'] : override?.kind === 'td' ? ['Ready', 'ready'] : override?.kind === 'skill' ? ['Proposed', 'proposed'] : itemStatus(initiative);
+  const allTags = initiative.tags || scopeTags(initiative, focusRepo ? [focusRepo] : repos);
+  const tags = allTags.length > MAX_TAGS ? allTags.slice(0, MAX_TAGS - 1) : allTags;
+  const moreTags = allTags.slice(tags.length);
+  const review = override ? null : reviewStateOf(initiative);
+  const generate = !override && offersGenerate(initiative);
+  const trackedPlan = review?.kind === 'plan' ? review.plan : null;
+  const planSkills = trackedPlan ? Math.max(0, trackedPlan.itemIds.filter((id) => itemNeedsSkill(INITIATIVES.find((entry) => entry.id === id))).length - (trackedPlan.reviewed || []).length) : 0;
+  const planLine = trackedPlan && { generating: ['Creating campaign…', 'spark', 'busy', `${trackedPlan.name} · started ${ago(trackedPlan.createdAt || Date.now())}`], review: ['Review campaign', 'spark', 'skill', `${trackedPlan.name} · ${planSkills} to review`], ready: ['Start campaign', 'arrow', '', `${trackedPlan.name} · ready to start`], running: ['View campaign', 'arrow', '', `${trackedPlan.name} · running`] }[trackedPlan.status];
+  const [pathLabel, pathIcon, pathTone, recommendedNote] = override ? overridePath(override, repos)
+    : planLine ? planLine
+      : review?.kind === 'generating' ? ['Generating skill…', 'spark', 'busy', `Started ${ago(review.skill.started)} · about ${Math.max(1, Math.round((review.skill.seconds * 1000 - (Date.now() - review.skill.started)) / 1000))} s left`]
+        : review?.kind === 'skill-ready' ? ['Review generated skill', 'spark', 'skill', `Generated ${ago(review.skill.finished)} · ${SKILL_NAMES[initiative.id] || slugOf(initiative.title)}`]
+          : review?.kind === 'td' ? ['Review generated TD', 'td', '', `Generated · ${tdLabel(review.td.id)}`]
+            : generate ? ['Generate specialized skill', 'spark', 'skill', `Not generated yet · ${repos.length} repo${repos.length === 1 ? '' : 's'}`]
+              : recommendedPath(initiative, repos);
+  const [statusLabel] = review?.kind === 'td' ? ['Ready to review'] : review?.kind === 'plan' ? ['Waiting on you'] : generate ? ['Not generated'] : override?.kind === 'td' ? ['Ready'] : override?.kind === 'skill' ? ['Proposed'] : itemStatus(initiative);
+  const [progressLabel, progressTone] = PROGRESS_NOTE[initiative.readiness] || [];
+  // The remediation note leads with where the item stands, so a separate status column isn't needed.
+  const pathNote = initiative.stage === 'progress' ? [progressLabel, initiative.verified].filter(Boolean).join(' · ')
+    : override?.kind === 'manual' || override?.kind === 'accept' ? recommendedNote : review || generate ? recommendedNote : `${statusLabel} · ${recommendedNote}`;
   return <>
     <tr className={`item-row ${expanded ? 'expanded' : ''}`} onClick={onExpand}>
+      <td className={`item-check ${pickedHere ? 'on' : ''}`} onClick={(event) => event.stopPropagation()}>{initiative.stage === 'next' && <SelectAllBox ids={rows.map((finding) => finding.id)} checked={pickedIds} onChange={onPickFindings} label={scoped ? `Select ${initiative.title} in ${repoFilter}` : `Select ${initiative.title}`} />}</td>
       <td className="item-toggle"><button type="button" tabIndex={-1} aria-hidden="true" onClick={(event) => { event.stopPropagation(); onExpand(); }}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6" /></svg></button></td>
       <td className="item-name">
         <button type="button" className="item-title" aria-expanded={expanded} aria-controls={detailsId} onClick={(event) => { event.stopPropagation(); onExpand(); }}>{initiative.title}</button>{initiative.recommended && <span className="item-next">Next</span>}
         <small>{meta}</small>
       </td>
-      <td><span className="item-scope" title={repos.join(', ')}>{focusRepo ? (single ? 'Only this repository' : `This + ${repos.length - 1} more ${repos.length === 2 ? 'repository' : 'repositories'}`) : single ? repos[0] : `${repos.length} repositories`}</span>{tags.length > 0 && <span className="item-tags">{tags.map((tag) => <span key={tag}>{tag}</span>)}</span>}</td>
+      <td><span className="item-scope" title={repos.join(', ')}>{scoped ? repoFilter : focusRepo ? (single ? 'Only this repository' : `This + ${repos.length - 1} more ${repos.length === 2 ? 'repository' : 'repositories'}`) : single ? repos[0] : `${repos.length} repositories`}</span>{tags.length > 0 && <span className="item-tags">{tags.map((tag) => <span key={tag} className={RISK_TAG_TONE[tag] || ''}>{tag}</span>)}{moreTags.length > 0 && <span className="more" title={moreTags.join(', ')}>+{moreTags.length}</span>}</span>}</td>
       <td>{initiative.detectedBy}</td>
-      <td><span className={`item-status ${statusTone}`}><i aria-hidden="true" />{statusLabel}</span>{initiative.verified && <small className="item-verified">{initiative.verified}</small>}</td>
-      <td className="item-action"><div className="item-path-line">{override?.kind === 'manual' || override?.kind === 'accept' ? <span className="item-action-link muted">{pathLabel}</span> : <button type="button" className={`item-action-link ${pathTone}`} onClick={(event) => { event.stopPropagation(); act(); }}><ActionIcon name={pathIcon} />{pathLabel}</button>}
+      <td className="item-action">{pathTone === 'busy' ? <><div className="item-path-line"><span className="item-action-link busy"><span className="busy-dot" aria-hidden="true" />{pathLabel}</span></div><small className="item-path-note">{pathNote}</small></> : leftOut ? <><div className="item-path-line"><span className="item-action-link muted">Select a finding</span></div><small className="item-path-note">{pathNote}</small></> : <><div className="item-path-line">{override?.kind === 'manual' || override?.kind === 'accept' ? <span className="item-action-link muted">{pathLabel}</span> : <button type="button" className={`item-action-link ${pathTone}`} onClick={(event) => { event.stopPropagation(); act(); }}><ActionIcon name={pathIcon} />{pathLabel}</button>}
         {initiative.stage === 'next' && <span className="path-change"><button type="button" ref={changeRef} className="path-change-button" aria-haspopup="menu" aria-expanded={menuOpen} aria-label={`Change remediation path for ${initiative.title}`} title="Change remediation path" onClick={(event) => { event.stopPropagation(); setMenuOpen(!menuOpen); }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></button>
           {menuOpen && <PathMenu anchor={changeRef.current} item={initiative} override={override} onChoose={(value) => { onOverride(value); setMenuOpen(false); }} onClose={() => setMenuOpen(false)} />}</span>}
         {override && <button type="button" className="path-reset" onClick={(event) => { event.stopPropagation(); onOverride(null); }} aria-label={`Reset ${initiative.title} to the recommended path`}>Reset</button>}</div>
-        <small className={`item-path-note ${override ? 'overridden' : ''}`} title={pathNote}>{pathNote}</small></td>
+        <small className={`item-path-note ${override ? 'overridden' : ''} ${progressTone || ''}`} title={pathNote}>{progressTone && <i aria-hidden="true" />}{pathNote}</small></>}</td>
     </tr>
     {expanded && <>
-      {standalone ? <tr className="item-details standalone" id={detailsId}><td /><td colSpan={5}>
+      {standalone ? <tr className="item-details standalone" id={detailsId}><td /><td /><td colSpan={4}>
         <div className="item-panel">
           <div className="item-panel-main">
             <h4>What was found</h4><p>{rows[0].description}</p>
@@ -957,18 +1121,18 @@ function InitiativeRow({ initiative, expanded, onExpand, onNavigate, onOpenFindi
           <div className="item-panel-actions"><button type="button" className="rem-small-button" onClick={() => onOpenFinding(rows[0])}>Open finding</button></div>
         </div>
       </td></tr>
-      : <tr className="item-details" id={detailsId}><td /><td colSpan={5}><p className="item-summary">{initiative.summary}.{plan && ` ${plan.charAt(0).toUpperCase()}${plan.slice(1)}.`}</p></td></tr>}
-      {!standalone && rows.map((item, index) => <tr key={item.id} className={`item-sub ${index === rows.length - 1 ? 'last' : ''}`}>
+      : <tr className="item-details" id={detailsId}><td /><td /><td colSpan={4}><p className="item-summary">{initiative.summary}. {overlapNote(initiative)}.</p>{!scoped && <CrossRepoWarning repos={repos} compact />}</td></tr>}
+      {!standalone && rows.map((item, index) => <tr key={item.id} className={`item-sub ${index === rows.length - 1 ? 'last' : ''} ${scoped && pickedIds.size > 0 && !pickedIds.has(item.id) ? 'left-out' : ''}`}>
+        <td />
         <td />
         <td><div className="item-sub-name">
-          {initiative.stage === 'next' && !standalone && <input type="checkbox" checked={picked.has(item.id)} onChange={() => toggle(item.id)} aria-label={`Include ${item.title} in ${item.repo}`} />}
+          {initiative.stage === 'next' && !standalone && <input type="checkbox" checked={pickedIds.has(item.id)} onChange={() => onPickFindings([item.id], !pickedIds.has(item.id))} aria-label={`Include ${item.title} in ${item.repo}`} />}
           <i style={{ background: SEVERITY_DOT[item.severity] }} title={item.severity} aria-label={item.severity} />
           <button type="button" onClick={() => onOpenFinding(item)}>{item.title}</button>
         </div></td>
         <td className="item-repos" title={item.repo}>{item.repo}</td>
-        <td className="item-muted">{item.analysis}</td>
         <td />
-        <td className="item-sub-td" title={item.remediation ? TD_CATALOG[item.remediation]?.[0] : 'Specialized skill'}>{item.remediation ? <span className="mono">{(TD_CATALOG[item.remediation]?.[0] || item.remediation).replace(/^\w+\//, '')}</span> : <span className="item-muted">Specialized skill</span>}</td>
+        <td />
       </tr>)}
     </>}
   </>;
@@ -980,62 +1144,218 @@ function AssistantSpark() {
 const NOT_STARTED = INITIATIVES.filter((item) => item.stage === 'next');
 const FINDINGS_TABS = [
   ['priority', 'Priority', (item) => item.stage === 'next'],
-  ['initiatives', 'Initiatives', (item) => item.stage === 'next' && !isStandalone(item)],
+  ['review', 'Needs review', needsReview],
+  ['initiatives', 'Exposures', (item) => item.stage === 'next' && !isStandalone(item)],
   ['standalone', 'Standalone', (item) => item.stage === 'next' && isStandalone(item)],
-  ['progress', 'In progress', (item) => item.stage === 'progress'],
+  // Skills and plans AWS Transform is generating right now. Running remediations live in Remediations.
+  ['progress', 'In progress', inProgress],
   ['all', 'All findings', null],
 ];
-const tabCount = ([id, , filter]) => (id === 'all' ? ESTATE_FINDINGS.length : INITIATIVES.filter(filter).length);
+const tabCount = ([id, , filter], repos = []) => (id === 'all'
+  ? ESTATE_FINDINGS.filter((finding) => !repos.length || repos.includes(finding.repo)).length
+  : INITIATIVES.filter((item) => filter(item) && (!repos.length || initiativeRepos(item).some((name) => repos.includes(name)))).length);
+// Open findings in a repository that aren't already being remediated.
+const remainingFindings = (repo) => ESTATE_FINDINGS.filter((finding) => finding.repo === repo && finding.status === 'Open' && INITIATIVES.find((item) => item.id === finding.initiative)?.stage === 'next');
 
-function InitiativesTable({ tab, onNavigate, onOpenFinding }) {
+const GROUP_BY = ['Severity', 'Repository', 'Effort', 'Remediation', 'Finding type', 'Team', 'Detected by', 'None'];
+const SUGGESTED_GROUP_BY = ['Sprint plan', 'What it unblocks', 'Exposure'];
+const WORK_DAYS = [0.5, 1.5, 4, 5, 7.5, 12.5, 15];
+const SPRINT_DAYS = 10;
+// Work that has to land before something else can start.
+const UNBLOCKS = {
+  java: 'Unblocks Spring Boot 3 and AWS SDK v2',
+  node: 'Unblocks AWS SDK v3 and patched npm packages',
+  mylearning: 'Unblocks the React 18 upgrade',
+  angular: 'Unblocks the React 18 upgrade',
+  cicd: 'Unblocks automated verification of every fix',
+  'health-check': 'Unblocks automated verification of every fix',
+};
+const NOTHING_BLOCKED = 'Doesn’t block other work';
+const EXPOSURE_ORDER = ['Prod-critical and internet-facing', 'Prod-critical', 'Internet-facing', 'Internal only'];
+const exposureGroup = (item) => { const tags = exposureTags(initiativeRepos(item)); return tags.length === 2 ? EXPOSURE_ORDER[0] : tags[0] || EXPOSURE_ORDER[3]; };
+// Fill two-week sprints in priority order; whatever doesn't fit goes to the backlog.
+function sprintPlan(items) {
+  const sprints = [[], []];
+  const used = [0, 0];
+  const backlog = [];
+  items.forEach((item) => {
+    const days = WORK_DAYS[effortRank(item.effort)] ?? SPRINT_DAYS;
+    const slot = used.findIndex((total) => total + days <= SPRINT_DAYS);
+    if (slot === -1) backlog.push(item);
+    else { sprints[slot].push(item); used[slot] += days; }
+  });
+  return [
+    ...sprints.map((list, index) => ({ key: `sprint-${index + 1}`, label: `Sprint ${index + 1}`, note: `about ${Math.round(used[index])} of ${SPRINT_DAYS} days`, items: list })),
+    { key: 'backlog', label: 'Later', note: 'doesn’t fit the next two sprints', items: backlog },
+  ];
+}
+const groupByValue = (items, valueOf, order) => {
+  const values = order || [...new Set(items.map(valueOf))].sort();
+  return values.map((value) => ({ key: value, label: value, items: items.filter((item) => valueOf(item) === value) }));
+};
+
+// Checks or clears a set of items at once; shows a dash when only some are checked.
+function SelectAllBox({ ids, checked, onChange, label }) {
+  const ref = useRef(null);
+  const count = ids.filter((id) => checked.has(id)).length;
+  useEffect(() => { if (ref.current) ref.current.indeterminate = count > 0 && count < ids.length; });
+  if (!ids.length) return null;
+  return <input ref={ref} type="checkbox" checked={count === ids.length} onChange={() => onChange(ids, count !== ids.length)} aria-label={label} title={label} />;
+}
+
+function InitiativesTable({ tab, onNavigate, onOpenFinding, groupBy, setGroupBy, quickWins, setQuickWins, repos, setRepos, initialPicked }) {
   const [query, setQuery] = useState('');
-  const [repo, setRepo] = useState('All');
-  const [type, setType] = useState('All');
-  const [fixType, setFixType] = useState('All');
-  const [groupBy, setGroupBy] = useState('Severity');
-  const [quickWins, setQuickWins] = useState(false);
+  const [severities, setSeverities] = useState([]);
+  const [findingKinds, setFindingKinds] = useState([]);
+  const [analyses, setAnalyses] = useState([]);
+  const [fixTypes, setFixTypes] = useState([]);
+  // One repository picked is a repository view (repository bar, per-finding plan); several just filter.
+  const repo = repos.length === 1 ? repos[0] : 'All';
+  const setRepo = (value) => setRepos(value === 'All' ? [] : [value]);
+  // Picked findings. In a repository view, none picked means "everything shown".
+  const [pickedFindings, setPickedFindings] = useState(() => new Set(initialPicked || []));
+  const repoKey = useRef(repos.join('|'));
+  useEffect(() => { if (repoKey.current !== repos.join('|')) { repoKey.current = repos.join('|'); setPickedFindings(new Set()); } }, [repos.join('|')]);
+  const repoMode = repo !== 'All';
   const [expanded, setExpanded] = useState(() => new Set());
   const [overrides, setOverrides] = useState(() => ({ ...pathOverrides }));
   const setOverride = (id, value) => setOverrides((current) => { const next = { ...current }; if (value) next[id] = value; else delete next[id]; Object.keys(pathOverrides).forEach((key) => delete pathOverrides[key]); Object.assign(pathOverrides, next); return next; });
   const inTab = FINDINGS_TABS.find(([id]) => id === tab)[2];
-  const matches = (item) => inTab(item)
-    && (repo === 'All' || findingsOfInitiative(item).some((finding) => finding.repo === repo))
-    && (type === 'All' || findingsOfInitiative(item).some((finding) => finding.analysis === type))
-    && (fixType === 'All' || pathType(item, overrides[item.id]) === fixType)
+  // Finding-level filters: an item shows when any of its findings passes all of them.
+  const findingPasses = (finding, f = {}) => {
+    const repoList = f.repos ?? repos; const sev = f.severities ?? severities; const kinds = f.findingKinds ?? findingKinds; const an = f.analyses ?? analyses;
+    return (!repoList.length || repoList.includes(finding.repo)) && (!sev.length || sev.includes(finding.severity))
+      && (!kinds.length || kinds.includes(`cat:${findingCategory(finding)}`) || kinds.includes(`title:${finding.title}`)) && (!an.length || an.includes(finding.analysis));
+  };
+  const itemPasses = (item, f = {}) => inTab(item)
+    && findingsOfInitiative(item).some((finding) => findingPasses(finding, f))
+    && (!(f.fixTypes ?? fixTypes).length || (f.fixTypes ?? fixTypes).includes(pathType(item, overrides[item.id])))
     && (!quickWins || (item.stage === 'next' && effortRank(item.effort) <= 1))
     && (!query || `${item.title} ${item.summary || ''} ${findingsOfInitiative(item).map((finding) => `${finding.title} ${finding.repo}`).join(' ')}`.toLowerCase().includes(query.toLowerCase()));
+  const matches = (item) => itemPasses(item);
+  // How many findings a filter would show, used by each filter's "Show N findings" button.
+  const resultCount = (f) => INITIATIVES.filter((item) => itemPasses(item, f)).reduce((sum, item) => sum + findingsOfInitiative(item).filter((finding) => findingPasses(finding, f)).length, 0);
+  const tabFindings = INITIATIVES.filter(inTab).flatMap(findingsOfInitiative);
+  const countIn = (test) => tabFindings.filter(test).length;
+  const filtersOn = repos.length + severities.length + findingKinds.length + analyses.length + fixTypes.length > 0 || quickWins || Boolean(query);
   const visible = INITIATIVES.filter(matches).sort(byPriority);
   const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
   const repoNames = [...new Set(ESTATE_FINDINGS.map((item) => item.repo))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
-  const sections = groupBy === 'Repository'
-    ? repoNames.map((name) => ({ key: name, label: name, items: visible.filter((item) => initiativeRepos(item).includes(name)), findings: (item) => findingsOfInitiative(item).filter((finding) => finding.repo === name).length }))
-    : groupBy === 'None'
-      ? [{ key: 'all', items: visible }]
-      : SEVERITY_ORDER.map((level) => ({ key: level, label: level, dot: SEVERITY_DOT[level], items: visible.filter((item) => itemSeverity(item) === level) }));
-  const findingCount = (section) => section.items.reduce((sum, item) => sum + (section.findings ? section.findings(item) : findingsOfInitiative(item).filter((finding) => repo === 'All' || finding.repo === repo).length), 0);
+  // Repository, finding type and team can put one item in several groups; each group counts only its own findings.
+  const byFinding = (values, matchesFinding) => values.map((value) => ({ key: value, label: value, items: visible.filter((item) => findingsOfInitiative(item).some((finding) => matchesFinding(finding, value))), findings: (item) => findingsOfInitiative(item).filter((finding) => matchesFinding(finding, value)).length }));
+  const teamOf = (finding) => REPO_CONTEXT[finding.repo]?.platform || 'Unassigned';
+  const sections = {
+    Repository: () => byFinding(repoNames, (finding, name) => finding.repo === name),
+    Effort: () => groupByValue(visible, (item) => item.effort, [...new Set(visible.map((item) => item.effort))].sort((a, b) => effortRank(a) - effortRank(b))),
+    Remediation: () => groupByValue(visible, (item) => pathType(item, overrides[item.id]), ['Managed TD', 'Custom TD', 'Specialized skill', 'Other']),
+    'Finding type': () => byFinding([...new Set(ESTATE_FINDINGS.map((finding) => finding.analysis))].sort(), (finding, name) => finding.analysis === name),
+    Team: () => byFinding([...new Set(ESTATE_FINDINGS.map(teamOf))].sort(), (finding, name) => teamOf(finding) === name),
+    'Detected by': () => groupByValue(visible, (item) => item.detectedBy),
+    None: () => [{ key: 'all', items: visible }],
+    'Sprint plan': () => sprintPlan(visible),
+    'What it unblocks': () => groupByValue(visible, (item) => UNBLOCKS[item.id] || NOTHING_BLOCKED, [...new Set(Object.values(UNBLOCKS)), NOTHING_BLOCKED]),
+    Exposure: () => groupByValue(visible, exposureGroup, EXPOSURE_ORDER),
+  }[groupBy]?.() || SEVERITY_ORDER.map((level) => ({ key: level, label: level, dot: SEVERITY_DOT[level], items: visible.filter((item) => itemSeverity(item) === level) }));
+  const findingCount = (section) => section.items.reduce((sum, item) => sum + (section.findings ? section.findings(item) : findingsOfInitiative(item).filter((finding) => findingPasses(finding)).length), 0);
   const shown = new Set(sections.flatMap((section) => section.items.map((item) => item.id))).size;
-  const toggle = (id) => setExpanded((set) => { const next = new Set(set); if (next.has(id)) next.delete(id); else next.add(id); return next; });
-  const clear = () => { setQuery(''); setRepo('All'); setType('All'); setFixType('All'); setQuickWins(false); };
-  return <section className="dash-card items-card">
+  const flip = (setter, id) => setter((set) => { const next = new Set(set); if (next.has(id)) next.delete(id); else next.add(id); return next; });
+  const toggle = (id) => flip(setExpanded, id);
+  // Only items that haven't started can be selected; in a repository view, only that repository's findings.
+  const selectableFindings = (items) => [...new Set(items.filter((item) => item.stage === 'next').flatMap((item) => findingsOfInitiative(item).filter((finding) => !repoMode || finding.repo === repo).map((finding) => finding.id)))];
+  const visibleItems = [...new Map(sections.flatMap((section) => section.items).filter((item) => item.stage === 'next').map((item) => [item.id, item])).values()];
+  const visibleFindingIds = selectableFindings(visibleItems);
+  const pickedVisible = ESTATE_FINDINGS.filter((finding) => visibleFindingIds.includes(finding.id) && pickedFindings.has(finding.id));
+  const pickedItems = visibleItems.filter((item) => findingsOfInitiative(item).some((finding) => pickedFindings.has(finding.id)));
+  const pickedRepos = [...new Set(pickedVisible.map((finding) => finding.repo))];
+  const selecting = pickedFindings.size > 0;
+  // One item picked: its own fix already covers the findings, so the bar offers that fix instead of a combined plan.
+  // One finding keeps its own fix; any grouping of findings becomes a campaign.
+  const soleItem = pickedItems.length === 1 && pickedVisible.length === 1 ? pickedItems[0] : null;
+  const solePath = soleItem && (overrides[soleItem.id] ? overridePath(overrides[soleItem.id], initiativeRepos(soleItem)) : recommendedPath(soleItem, initiativeRepos(soleItem)));
+  const soleUsesSkill = soleItem && (overrides[soleItem.id] ? overrides[soleItem.id].kind === 'skill' : itemNeedsSkill(soleItem));
+  const soleBlocked = soleItem && ['manual', 'accept'].includes(overrides[soleItem.id]?.kind);
+  const actOnSole = () => (soleUsesSkill ? reviewSkill(soleItem, onNavigate, pickedVisible.length) : openAuthorize(onNavigate, soleItem.id));
+  // A multi-repository plan opens on the repository with the most picked findings.
+  const planRepo = pickedRepos.slice().sort((a, b) => pickedVisible.filter((finding) => finding.repo === b).length - pickedVisible.filter((finding) => finding.repo === a).length)[0];
+  const setManyFindings = (ids, on) => setPickedFindings((set) => { const next = new Set(set); ids.forEach((id) => (on ? next.add(id) : next.delete(id))); return next; });
+  const repoFindings = ESTATE_FINDINGS.filter((finding) => finding.repo === repo);
+  const repoRemaining = remainingFindings(repo);
+  const shownRepoFindings = visible.filter((item) => item.stage === 'next').flatMap((item) => findingsOfInitiative(item).filter((finding) => finding.repo === repo));
+  const pickedShown = shownRepoFindings.filter((finding) => pickedFindings.has(finding.id));
+  const shownPicked = pickedShown.length === shownRepoFindings.length ? [] : pickedShown;
+  const repoSummary = [
+    plural(repoFindings.length, 'finding'),
+    ...['Critical', 'High'].map((level) => [level, repoRemaining.filter((finding) => finding.severity === level).length]).filter(([, n]) => n).map(([level, n]) => `${n} ${level.toLowerCase()}`),
+    repoFindings.some((finding) => finding.status === 'In remediation') && `${repoFindings.filter((finding) => finding.status === 'In remediation').length} already in remediation`,
+  ].filter(Boolean).join(' · ');
+  const remediateIds = (shownPicked.length ? shownPicked : shownRepoFindings).map((finding) => finding.id);
+  // "All" only when the plan covers every open finding left in the repository.
+  const remediateCount = (shownPicked.length || shownRepoFindings.length);
+  const remediateLabel = remediateCount === 1 ? `Remediate 1 finding in ${repo}` : remediateCount === repoRemaining.length ? `Create campaign · all findings in ${repo}` : `Create campaign · ${plural(remediateCount, 'finding')} in ${repo}`;
+  const shownFindingCount = visible.reduce((sum, item) => sum + findingsOfInitiative(item).filter((finding) => finding.repo === repo).length, 0);
+  const clear = () => { setQuery(''); setRepos([]); setSeverities([]); setFindingKinds([]); setAnalyses([]); setFixTypes([]); setQuickWins(false); };
+  const shownFindings = visible.reduce((sum, item) => sum + findingsOfInitiative(item).filter((finding) => findingPasses(finding)).length, 0);
+  const sortedRepos = [...new Set(ESTATE_FINDINGS.map((item) => item.repo))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+  const findingTitles = [...new Set(tabFindings.map((finding) => finding.title))].sort((a, b) => a.localeCompare(b));
+  const searchLabel = tab === 'progress' ? 'Find exposures' : 'Find exposures and findings';
+  return <div className="items-card">
     <div className="items-toolbar">
-      <label className="findings-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Find initiatives and findings" aria-label="Find initiatives and findings" /></label>
-      <SearchableSelect label="Repository" value={repo} onChange={setRepo} placeholder="Find repositories" options={[...new Set(ESTATE_FINDINGS.map((item) => item.repo))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })).map((name) => ({ value: name, label: name, count: INITIATIVES.filter((item) => inTab(item) && initiativeRepos(item).includes(name)).length }))} />
-      <label className="items-select"><span className="sr-only">Finding type</span><select value={type} onChange={(event) => setType(event.target.value)}><option value="All">Finding type: All</option>{[...new Set(ESTATE_FINDINGS.map((item) => item.analysis))].sort().map((name) => <option key={name} value={name}>Finding type: {name}</option>)}</select></label>
-      <label className="items-select"><span className="sr-only">Remediation</span><select value={fixType} onChange={(event) => setFixType(event.target.value)}><option value="All">Remediation: All</option>{['Managed TD', 'Custom TD', 'Specialized skill'].map((name) => <option key={name} value={name}>Remediation: {name}</option>)}</select></label>
+      <label className="findings-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={searchLabel} aria-label={searchLabel} /></label>
+      <MultiSelectFilter label="Repository" value={repos} onChange={setRepos} searchPlaceholder="Find repositories" countFor={(value) => resultCount({ repos: value })}
+        sections={[{ options: sortedRepos.map((name) => ({ value: name, label: name, description: REPO_CONTEXT[name]?.platform, count: countIn((finding) => finding.repo === name) })) }]} />
+      <MultiSelectFilter label="Severity" value={severities} onChange={setSeverities} width={240} countFor={(value) => resultCount({ severities: value })}
+        sections={[{ options: SEVERITY_ORDER.map((level) => ({ value: level, label: level, count: countIn((finding) => finding.severity === level) })) }]} />
+      <MultiSelectFilter label="Finding" value={findingKinds} onChange={setFindingKinds} width={340} searchPlaceholder="Search, e.g. CVE, Java, Log4j" countFor={(value) => resultCount({ findingKinds: value })}
+        sections={[
+          { title: 'Category', options: FINDING_CATEGORIES.map(([name, description]) => ({ value: `cat:${name}`, label: name, description, count: countIn((finding) => findingCategory(finding) === name) })).filter((option) => option.count) },
+          { title: 'Specific finding', options: findingTitles.map((title) => { const rows = tabFindings.filter((finding) => finding.title === title); return { value: `title:${title}`, label: title, description: [...new Set(rows.map((finding) => finding.repo))].join(', '), count: rows.length }; }) },
+        ]} />
+      <MultiSelectFilter label="Analysis" value={analyses} onChange={setAnalyses} width={300} countFor={(value) => resultCount({ analyses: value })}
+        sections={[{ options: [...new Set(ESTATE_FINDINGS.map((item) => item.analysis))].sort().map((name) => ({ value: name, label: name, count: countIn((finding) => finding.analysis === name) })) }]} />
+      <MultiSelectFilter label="Remediation" value={fixTypes} onChange={setFixTypes} width={280} countFor={(value) => resultCount({ fixTypes: value })}
+        sections={[{ options: ['Managed TD', 'Custom TD', 'Specialized skill'].map((name) => { const items = INITIATIVES.filter((item) => inTab(item) && pathType(item, overrides[item.id]) === name); return { value: name, label: name, description: name === 'Specialized skill' ? 'Generated by AWS Transform, reviewed by you' : name === 'Custom TD' ? 'From your organization’s registry' : 'Maintained by AWS', count: items.reduce((sum, item) => sum + findingsOfInitiative(item).length, 0) }; }) }]} />
       <button type="button" className={`items-quick ${quickWins ? 'on' : ''}`} aria-pressed={quickWins} onClick={() => setQuickWins(!quickWins)}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6Z" /></svg>Quick wins</button>
-      <label className="items-select items-group-by"><span className="sr-only">Group by</span><select value={groupBy} onChange={(event) => setGroupBy(event.target.value)}>{['Severity', 'Repository', 'None'].map((name) => <option key={name} value={name}>Group by: {name}</option>)}</select></label>
-      <span className="items-count">{plural(shown, 'item')}</span>
+      <label className="items-select items-group-by"><span className="sr-only">Group by</span><select value={groupBy} onChange={(event) => setGroupBy(event.target.value)}>{GROUP_BY.map((name) => <option key={name} value={name}>Group by: {name}</option>)}<optgroup label="Suggested by AWS Transform">{SUGGESTED_GROUP_BY.map((name) => <option key={name} value={name}>Group by: {name}</option>)}</optgroup></select></label>
+      {!repoMode && !filtersOn && <span className="items-count">{plural(shown, tab === 'progress' ? 'exposure' : 'item')}</span>}
     </div>
-    <div className="estate-findings-table-wrap"><table className="items-table findings-items">
-      <colgroup><col style={{ width: 52 }} /><col /><col style={{ width: 230 }} /><col style={{ width: 170 }} /><col style={{ width: 120 }} /><col style={{ width: 250 }} /></colgroup>
-      <thead><tr><th><span className="sr-only">Expand</span></th><th>Item</th><th>Scope</th><th>Detected by</th><th>Status</th><th>Remediation path</th></tr></thead>
+    {!repoMode && filtersOn && <div className="repo-bar-meta"><button type="button" className="dash-link" onClick={clear}>Clear filters</button><span>{plural(shown, tab === 'progress' ? 'exposure' : 'item')} · {plural(shownFindings, 'finding')}</span></div>}
+    {!repoMode && pickedVisible.length > 0 && <div className="selection-bar">
+      <strong>{pickedItems.length} selected</strong>
+      <span>{plural(pickedVisible.length, 'finding')} · {pickedRepos.length} {pickedRepos.length === 1 ? 'repository' : 'repositories'}</span>
+      {linkedRepos(pickedRepos).length >= 2 && <span className="xrepo-label" title={`Some repos in this group may depend on each other: ${linkedRepos(pickedRepos).join(', ')}. CM can’t order their changes yet, so merging their PRs out of order could break the build.`}><span aria-hidden="true">⚠</span> Cross-repo dependency</span>}
+      <span className="selection-bar-note">{soleItem
+        ? `${soleUsesSkill ? 'One specialized skill' : solePath[0].replace(/^Review /, 'The ').replace(/ TD$/, ' TD')} fixes ${pickedVisible.length === 1 ? 'it' : pickedVisible.length === 2 ? 'both' : `all ${pickedVisible.length}`}${pickedRepos.length > 1 ? ', one pull request per repository' : ''}`
+        : 'Ordered by dependency, one pull request per repository'}</span>
+      <span className="selection-bar-actions">
+        {pickedVisible.length < visibleFindingIds.length && <button type="button" className="dash-link" onClick={() => setManyFindings(visibleFindingIds, true)}>Select all {visibleItems.length}</button>}
+        <button type="button" className="dash-link" onClick={() => setPickedFindings(new Set())}>Clear selection</button>
+        {soleItem
+          ? !soleBlocked && <Button onClick={actOnSole}>{solePath[0]}</Button>
+          : <Button onClick={() => openItemsPlan(onNavigate, pickedVisible.map((finding) => finding.id))}>Create campaign</Button>}
+      </span>
+    </div>}
+    {repoMode && <>
+      <div className="repo-bar">
+        <span className="repo-bar-icon"><Icon name="github" /></span>
+        <div className="repo-bar-text"><strong>{repo}</strong><small>{repoSummary}</small></div>
+        {shownRepoFindings.length > 0 && <div className="repo-bar-actions">
+          {shownPicked.length > 0 && <span className="repo-bar-left">{shownRepoFindings.length - shownPicked.length} left out · <button type="button" className="dash-link" onClick={() => setManyFindings(shownRepoFindings.map((finding) => finding.id), true)}>Select all</button></span>}
+          {pickedShown.length > 0 && <button type="button" className="dash-link" onClick={() => setPickedFindings(new Set())}>Clear selection</button>}
+          <Button onClick={() => (remediateIds.length > 1 ? openItemsPlan(onNavigate, remediateIds, repo) : openRepoPlan(onNavigate, repo, remediateIds))}>{remediateLabel}</Button>
+        </div>}
+      </div>
+      <div className="repo-bar-meta"><button type="button" className="dash-link" onClick={clear}>Clear filters</button><span>{plural(shown, tab === 'progress' ? 'exposure' : 'item')} · {plural(shownFindingCount, 'finding')}</span></div>
+    </>}
+    <div className="estate-findings-table-wrap"><table className={`items-table findings-items ${selecting || repoMode ? 'selecting' : ''}`}>
+      <colgroup><col style={{ width: 44 }} /><col style={{ width: 32 }} /><col style={{ width: '34%' }} /><col style={{ width: '25%' }} /><col style={{ width: '15%' }} /><col /></colgroup>
+      <thead><tr><th className="item-check">{!repoMode && <SelectAllBox ids={visibleFindingIds} checked={pickedFindings} onChange={setManyFindings} label="Select all visible items" />}</th><th><span className="sr-only">Expand</span></th><th>Item</th><th>Scope</th><th>Detected by</th><th>Remediation</th></tr></thead>
       <tbody>{sections.filter((section) => section.items.length).map((section) => [
-        section.label && <tr key={section.key} className="item-group"><td /><td colSpan={5}>{section.dot && <i style={{ background: section.dot }} aria-hidden="true" />}<strong>{section.label}</strong><span>{section.items.length}{findingCount(section) !== section.items.length && <em> · {plural(findingCount(section), 'finding')}</em>}</span></td></tr>,
-        ...section.items.map((item) => <InitiativeRow key={`${section.key}-${item.id}`} initiative={item} expanded={expanded.has(item.id)} onExpand={() => toggle(item.id)} onNavigate={onNavigate} onOpenFinding={onOpenFinding} override={overrides[item.id]} onOverride={(value) => setOverride(item.id, value)} repoFilter={repo === 'All' ? null : repo} />),
+        section.label && <tr key={section.key} className="item-group"><td></td><td /><td colSpan={4}>{section.dot && <i style={{ background: section.dot }} aria-hidden="true" />}<strong>{section.label}</strong><span>{section.items.length}{findingCount(section) !== section.items.length && <em> · {plural(findingCount(section), 'finding')}</em>}{section.note && <em> · {section.note}</em>}</span>{selecting && selectableFindings(section.items).some((id) => !pickedFindings.has(id)) && <button type="button" className="dash-link group-select" onClick={() => setManyFindings(selectableFindings(section.items), true)}>Select {section.items.filter((item) => item.stage === 'next').length}</button>}</td></tr>,
+        ...section.items.map((item) => <InitiativeRow key={`${section.key}-${item.id}`} initiative={item} expanded={expanded.has(item.id)} onExpand={() => toggle(item.id)} onNavigate={onNavigate} onOpenFinding={onOpenFinding} override={overrides[item.id]} onOverride={(value) => setOverride(item.id, value)} repoFilter={repo === 'All' ? null : repo} pickedIds={pickedFindings} onPickFindings={(ids, on) => { setManyFindings(ids, on); if (on) setExpanded((set) => new Set(set).add(item.id)); }} />),
       ])}</tbody>
     </table></div>
     {shown === 0 && <div className="findings-empty"><strong>Nothing matches these filters</strong><button type="button" className="dash-link" onClick={clear}>Clear filters</button></div>}
-  </section>;
+  </div>;
 }
 
 function AllFindingsTable({ focus, onOpenFinding }) {
@@ -1080,10 +1400,16 @@ function AllFindingsTable({ focus, onOpenFinding }) {
 }
 
 function ImprovedFindings({ onNavigate }) {
-  const [focus] = useState(() => { const value = pendingFindingsFocus; pendingFindingsFocus = null; return value || {}; });
+  useWork();
+  const [focus] = useState(() => pendingFindingsFocus || {});
+  useEffect(() => { pendingFindingsFocus = null; }, []);
   const [tab, setTab] = useState(focus.all || focus.title || focus.severity || focus.analysis || focus.repo ? 'all' : 'priority');
+  // Expand the items a returning selection belongs to.
   const [selected, setSelected] = useState(null);
   const [explainer, setExplainer] = useState(false);
+  const [groupBy, setGroupBy] = useState('Severity');
+  const [quickWins, setQuickWins] = useState(false);
+  const [repos, setRepos] = useState(focus.repoFilter ? [focus.repoFilter] : []);
   const initiatives = INITIATIVES.filter((item) => !isStandalone(item)).length;
   const standalone = INITIATIVES.filter(isStandalone).length;
   const onTabKey = (event, index) => {
@@ -1093,19 +1419,605 @@ function ImprovedFindings({ onNavigate }) {
     setTab(id); document.getElementById(`findings-tab-${id}`)?.focus();
   };
   return <RailShell active="Findings" onNavigate={onNavigate}>
-    <div className="dash-title"><div><h1>Findings</h1><p>{ESTATE_FINDINGS.length} open findings · {initiatives} initiatives · {standalone} standalone · <button type="button" className="dash-link findings-how" aria-expanded={explainer} onClick={() => setExplainer(!explainer)}>How initiatives work</button></p></div></div>
-    {explainer && <section className="initiatives-explainer findings-explainer"><Icon name="info" /><p>AWS Transform groups findings that should change together. A <strong>bundle</strong> fixes several findings in one repository with one pull request. A <strong>migration</strong> runs several TDs in order, because later steps depend on earlier ones. A <strong>campaign</strong> applies the same fix across repositories, with one pull request per repository. A <strong>standalone</strong> fix changes one thing. Progress counts verified fixes only.</p><button type="button" className="icon-button" onClick={() => setExplainer(false)} aria-label="Close"><Icon name="close" /></button></section>}
+    <div className="dash-title"><div><h1>Findings</h1><p>{ESTATE_FINDINGS.length} open findings · {initiatives} exposures · {standalone} standalone · <button type="button" className="dash-link findings-how" aria-expanded={explainer} onClick={() => setExplainer(!explainer)}>How exposures work</button></p></div></div>
+    {explainer && <section className="initiatives-explainer findings-explainer"><Icon name="info" /><p>AWS Transform groups findings that should change together into an <strong>exposure</strong>. A <strong>bundle</strong> fixes several findings in one repository with one pull request. A <strong>migration</strong> runs several TDs in order, because later steps depend on earlier ones. A <strong>campaign</strong> applies the same fix across repositories, with one pull request per repository. A <strong>standalone</strong> fix changes one thing. Progress counts verified fixes only.</p><button type="button" className="icon-button" onClick={() => setExplainer(false)} aria-label="Close"><Icon name="close" /></button></section>}
     <section className="findings-ai">
       <span className="initiatives-ai-mark"><AssistantMark size={16} /></span>
-      <p>I grouped {ESTATE_FINDINGS.length} findings into {initiatives} initiatives and {standalone} standalone fixes, ordered by severity, then effort. I’d start with the Java services: the Spring Boot upgrade is blocked on Java 21.</p>
+      <p>I grouped {ESTATE_FINDINGS.length} findings into {initiatives} exposures and {standalone} standalone fixes, ordered by severity, then effort. I’d start with the Java services: the Spring Boot upgrade is blocked on Java 21.</p>
       <button type="button" className="initiative-review" onClick={() => askRailChat('What should I fix first?')}><AssistantSpark />Continue in chat</button>
     </section>
-    <div className="findings-tabs" role="tablist" aria-label="Organize findings">{FINDINGS_TABS.map((entry, index) => { const [id, label] = entry; return <button key={id} id={`findings-tab-${id}`} type="button" role="tab" aria-selected={tab === id} tabIndex={tab === id ? 0 : -1} className={tab === id ? 'active' : ''} onClick={() => setTab(id)} onKeyDown={(event) => onTabKey(event, index)}>{label}<span>{tabCount(entry)}</span></button>; })}</div>
-    <div role="tabpanel" aria-labelledby={`findings-tab-${tab}`}>
-      {tab === 'all' ? <AllFindingsTable focus={focus} onOpenFinding={setSelected} /> : <InitiativesTable key={tab} tab={tab} onNavigate={onNavigate} onOpenFinding={setSelected} />}
-    </div>
+    {(() => {
+      const plans = WORK.plans.filter((plan) => ['review', 'ready'].includes(plan.status));
+      const generated = INITIATIVES.filter((item) => ['td', 'skill-ready'].includes(reviewStateOf(item)?.kind));
+      if (!plans.length && !generated.length) return null;
+      const parts = [
+        plans.length === 1 ? `the “${plans[0].name}” campaign ${plans[0].status === 'ready' ? 'is ready to start' : 'has skills to review'}` : plans.length ? `${plans.length} campaigns need you` : null,
+        generated.length ? `${generated.length} TD${generated.length === 1 ? '' : 's'} or skill${generated.length === 1 ? '' : 's'} you asked AWS Transform to generate ${generated.length === 1 ? 'is' : 'are'} ready` : null,
+      ].filter(Boolean);
+      return <section className="review-banner">
+        <Icon name="info" />
+        <p><strong>Waiting on you:</strong> {parts.join(', and ')}.</p>
+        <button type="button" className="dash-link" onClick={() => setTab('review')}>Show {tabCount(FINDINGS_TABS.find(([id]) => id === 'review'), repos)} items</button>
+      </section>;
+    })()}
+    <section className="dash-card findings-panel">
+      <div className="findings-tabs" role="tablist" aria-label="Organize findings">{FINDINGS_TABS.map((entry, index) => { const [id, label] = entry; return <button key={id} id={`findings-tab-${id}`} type="button" role="tab" aria-selected={tab === id} tabIndex={tab === id ? 0 : -1} className={tab === id ? 'active' : ''} onClick={() => setTab(id)} onKeyDown={(event) => onTabKey(event, index)}>{label}<span>{tabCount(entry, repos)}</span></button>; })}</div>
+      <div role="tabpanel" aria-labelledby={`findings-tab-${tab}`}>
+        {tab === 'all' ? <AllFindingsTable focus={repos.length === 1 && !focus.repo ? { ...focus, repo: repos[0] } : focus} onOpenFinding={setSelected} /> : <InitiativesTable key={tab} tab={tab} onNavigate={onNavigate} onOpenFinding={setSelected} groupBy={groupBy} setGroupBy={setGroupBy} quickWins={quickWins} setQuickWins={setQuickWins} repos={repos} setRepos={setRepos} initialPicked={focus.picked} />}
+      </div>
+    </section>
     {selected && <FindingDetail finding={selected} onClose={() => setSelected(null)} onNavigate={onNavigate} />}
   </RailShell>;
+}
+
+// A18 · Repository plan: everything picked in one repository, as ordered steps in one branch and one pull request.
+let pendingRepoPlan = null;
+const openRepoPlan = (onNavigate, repo, ids) => { pendingRepoPlan = { repo, ids }; onNavigate('improved-rail-repo-plan'); };
+const SKILL_NAMES = { secrets: 'move-secrets-to-secrets-manager', access: 'harden-iam-sessions-and-pii', 'payment-coupling': 'decouple-payment-persistence', cicd: 'add-ci-cd-pipeline', mylearning: 'add-tests-then-upgrade-react', 'n-plus-one': 'batch-order-history-queries', 'health-check': 'add-health-check-endpoint', 'sync-reads': 'async-config-loading' };
+// How a step reads in a repository plan, and its short name in the readiness list.
+const STEP_NAMES = {
+  java: ['Modernize the Java services', 'Java services'], 'base-images': ['Update container base images', 'Container base images'],
+  secrets: ['Remove exposed secrets', 'Exposed secrets'], access: ['Harden access and data protection', 'Access and data'],
+  'verbose-errors': ['Return generic error messages to clients', 'Generic error messages'], 'payment-coupling': ['Decouple payment logic from the database', 'Decouple payment logic'],
+  cicd: ['Add CI/CD pipelines', 'CI/CD pipelines'], mylearning: ['Add tests, then upgrade React', 'Tests, then React'],
+};
+const stepTitle = (initiative) => STEP_NAMES[initiative.id]?.[0] || initiative.title;
+const stepShort = (initiative) => STEP_NAMES[initiative.id]?.[1] || initiative.title;
+const slugOf = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+const tdLabel = (id) => (id.startsWith('Custom/') ? id.slice('Custom/'.length) : id);
+// The fix AWS Transform recommends for these findings: TDs when every finding has one, otherwise one generated skill.
+function planPath(initiative, findings) {
+  if (GENERATED_TDS[initiative.id]) return { kind: 'td', ids: [GENERATED_TDS[initiative.id].id], tdKind: 'custom', generated: true };
+  const tds = [...new Set([...findings].sort((a, b) => a.order - b.order).map((finding) => finding.remediation).filter(Boolean))].map((label) => TD_CATALOG[label] || [label, 'managed']);
+  if (tds.length && findings.every((finding) => finding.remediation)) return { kind: 'td', ids: tds.map(([id]) => id), tdKind: tds.every(([, kind]) => kind === 'custom') ? 'custom' : 'managed' };
+  return { kind: 'skill', id: SKILL_NAMES[initiative.id] || slugOf(initiative.title) };
+}
+const pathKindLabel = (path) => (path.kind === 'skill' ? 'Specialized skill' : path.tdKind === 'custom' ? 'Custom TD' : 'Managed TD');
+
+// Runtime first, images built on it, then security fixes, then code changes; architecture work goes last.
+const PLAN_ORDER = ['java', 'node', 'base-images', 'secrets', 'access', 'tls', 'verbose-errors', 'mylearning', 'cicd', 'health-check', 'n-plus-one', 'sync-reads', 'console-logging', 'payment-coupling'];
+const planRank = (initiative) => { const at = PLAN_ORDER.indexOf(initiative.id); return at < 0 ? PLAN_ORDER.length : at; };
+
+function RailRepoPlan({ onNavigate }) {
+  // Read the hand-off in the initializer and clear it in an effect: StrictMode calls initializers twice in dev.
+  const [start] = useState(() => pendingRepoPlan || { repo: R.payments, ids: null });
+  useEffect(() => { pendingRepoPlan = null; }, []);
+  // A selection that spans repositories becomes one plan with one pull request per repository.
+  const [planRepos] = useState(() => (start.ids ? [...new Set(ESTATE_FINDINGS.filter((finding) => start.ids.includes(finding.id)).map((finding) => finding.repo))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })) : null));
+  const multi = Boolean(planRepos && planRepos.length > 1);
+  const [repo, setRepo] = useState(start.repo);
+  const [ids, setIds] = useState(start.ids);
+  // Choices and approvals are kept per repository and step, so switching tabs doesn't lose them.
+  const [choices, setChoices] = useState({});
+  const [reviewed, setReviewed] = useState(() => new Set());
+  const [autoApprove, setAutoApprove] = useState(false);
+  const [open, setOpen] = useState(() => new Set());
+  const [menuFor, setMenuFor] = useState(null);
+  const [reviewing, setReviewing] = useState(null);
+  const [started, setStarted] = useState(false);
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  const repoWord = (n) => (n === 1 ? 'repository' : 'repositories');
+  const keyOf = (name, initiative) => `${name}:${initiative.id}`;
+  const stepsFor = (name) => {
+    const remaining = remainingFindings(name);
+    const picked = ids ? remaining.filter((finding) => ids.includes(finding.id)) : remaining;
+    const all = [...new Set(picked.map((finding) => finding.initiative))].map((id) => INITIATIVES.find((item) => item.id === id)).map((initiative) => {
+      const findings = picked.filter((finding) => finding.initiative === initiative.id);
+      const recommended = planPath(initiative, findings);
+      const key = keyOf(name, initiative);
+      return { key, repo: name, initiative, findings, recommended, path: choices[key] || recommended };
+    });
+    return { remaining, picked, steps: all.filter((step) => step.path.kind !== 'leave').sort((a, b) => planRank(a.initiative) - planRank(b.initiative) || byPriority(a.initiative, b.initiative)), leftOut: all.filter((step) => step.path.kind === 'leave') };
+  };
+  const repoOptions = planRepos || [...new Set(ESTATE_FINDINGS.map((finding) => finding.repo))].filter((name) => remainingFindings(name).length).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+  const plan = Object.fromEntries((planRepos || [repo]).map((name) => [name, stepsFor(name)]));
+  const { remaining, picked, steps, leftOut } = plan[repo] || stepsFor(repo);
+  const allSteps = Object.values(plan).flatMap((entry) => entry.steps);
+  const approved = (step) => reviewed.has(step.key);
+  const isReady = (step) => step.path.kind === 'td' || approved(step) || autoApprove;
+  const statusOf = (step) => (step.path.kind === 'td' || approved(step) ? 'Ready' : autoApprove ? 'Auto-approved' : 'Needs review');
+  const ready = allSteps.filter(isReady).length;
+  const toReview = allSteps.filter((step) => !isReady(step));
+  const planFindings = allSteps.flatMap((step) => step.findings);
+  const repoFindings = steps.flatMap((step) => step.findings);
+  const prCount = Object.values(plan).filter((entry) => entry.steps.length).length;
+  const tdSteps = allSteps.filter((step) => step.path.kind === 'td').length;
+  const skillSteps = allSteps.length - tdSteps;
+  const repoTd = steps.filter((step) => step.path.kind === 'td').length;
+  const effort = allSteps.map((step) => step.initiative.effort).sort((a, b) => effortRank(b) - effortRank(a))[0];
+  const everything = picked.length === remaining.length && !leftOut.length;
+  const severityLine = (list) => ['Critical', 'High'].map((level) => [level, list.filter((finding) => finding.severity === level).length]).filter(([, n]) => n).map(([level, n]) => `${n} ${level.toLowerCase()}`).join(' · ');
+  const choose = (key, path) => { setChoices((current) => ({ ...current, [key]: path })); setMenuFor(null); setStarted(false); };
+  const switchRepo = (name) => { setRepo(name); setMenuFor(null); setOpen(new Set()); if (!planRepos) { setIds(null); setChoices({}); setReviewed(new Set()); setStarted(false); } };
+  const backToFindings = () => { pendingFindingsFocus = multi ? {} : { repoFilter: repo }; onNavigate('improved-findings'); };
+  const openReview = (step) => { if (step.repo !== repo) setRepo(step.repo); setReviewing(step.key); };
+  const reviewStep = allSteps.find((step) => step.key === reviewing);
+  const flipOpen = (key) => setOpen((set) => { const next = new Set(set); if (next.has(key)) next.delete(key); else next.add(key); return next; });
+  const fixedBy = (path) => {
+    if (path.kind === 'skill') return [path.id, 'Generated skill'];
+    const [first, ...rest] = path.ids.map(tdLabel);
+    return [first, `${path.tdKind === 'custom' ? 'Custom TD' : 'Managed TD'}${rest.length ? ` · then ${rest.join(', ')}` : ''}`];
+  };
+  const branchOf = (name) => `atx/remediate-${slugOf(name)}`;
+
+  return <RailShell active="Findings" onNavigate={onNavigate}>
+    <nav className="rem-breadcrumb" aria-label="Breadcrumb"><button type="button" onClick={backToFindings}>Findings</button><span>›</span><span>{multi ? 'Plan' : repo}</span></nav>
+    <div className="rp-head">
+      {multi
+        ? <div><h1>Remediate {plural(planFindings.length, 'finding')} across {planRepos.length} {repoWord(planRepos.length)}</h1>
+          <p>{plural(prCount, 'pull request')}, one per repository · steps run in order in each branch</p></div>
+        : <div><h1>Remediate <code>{repo}</code></h1>
+          <p>{[REPO_CONTEXT[repo]?.platform, `${everything ? '' : `${repoFindings.length} of `}${plural(everything ? repoFindings.length : remaining.length, 'finding')} in one pull request`].filter(Boolean).join(' · ')}</p></div>}
+      {!multi && <label className="rp-repo"><span className="sr-only">Repository</span><select value={repo} onChange={(event) => switchRepo(event.target.value)}>{repoOptions.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>}
+    </div>
+    {multi && <div className="rp-repo-tabs" role="tablist" aria-label="Repositories in this plan">{planRepos.map((name) => {
+      const entry = plan[name];
+      const waiting = entry.steps.filter((step) => !isReady(step)).length;
+      return <button key={name} type="button" role="tab" aria-selected={name === repo} className={name === repo ? 'active' : ''} onClick={() => switchRepo(name)}>
+        <strong className="mono">{name}</strong>
+        <small>{plural(entry.steps.flatMap((step) => step.findings).length, 'finding')} · {entry.steps.length === 0 ? 'left out' : waiting ? `${waiting} to review` : 'ready'}</small>
+      </button>;
+    })}</div>}
+    {allSteps.length === 0 ? <section className="dash-card rp-empty"><strong>Nothing left to remediate{multi ? ' in this plan' : ` in ${repo}`}</strong><button type="button" className="dash-link" onClick={backToFindings}>Back to Findings</button></section>
+      : <div className="rp-layout">
+        <section className="dash-card rp-steps">
+          <header>
+            <div><h2>{multi ? <>Steps in <code>{repo}</code></> : 'Steps'} <span>{steps.length}</span></h2>
+              {steps.length > 0 && <p><AssistantSpark />{[repoTd && `${plural(repoTd, 'step')} use${repoTd === 1 ? 's' : ''} an existing TD`, steps.length - repoTd && `${plural(steps.length - repoTd, 'skill')} generated by AWS Transform`].filter(Boolean).join(' · ')}</p>}</div>
+            <span>{multi ? <>One pull request from <code>{branchOf(repo)}</code></> : 'Run in order, in one branch'}</span>
+          </header>
+          {steps.length === 0 ? <p className="rp-leftout">Every step in {repo} is left out of this plan.</p> : <table className="rp-table">
+            <colgroup><col style={{ width: 56 }} /><col /><col style={{ width: '30%' }} /><col style={{ width: 210 }} /><col style={{ width: 92 }} /></colgroup>
+            <thead><tr><th /><th>Step</th><th>Fixed by</th><th>Status</th><th><span className="sr-only">Actions</span></th></tr></thead>
+            <tbody>{steps.map((step, index) => {
+              const { key, initiative, findings, path } = step;
+              const changed = Boolean(choices[key]);
+              const alternatives = TD_LIBRARY.filter((td) => initiative.id in td.fits && !(path.kind === 'td' && path.ids.includes(td.id)));
+              const [fixName, fixNote] = fixedBy(path);
+              const status = statusOf(step);
+              return [
+                <tr key={key}>
+                  <td><span className="rp-num">{index + 1}</span></td>
+                  <td><strong className="rp-step-title">{stepTitle(initiative)}</strong>
+                    <button type="button" className="rp-count" aria-expanded={open.has(key)} onClick={() => flipOpen(key)}>{plural(findings.length, 'finding')} <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ transform: open.has(key) ? 'rotate(180deg)' : 'none' }}><path d="m6 9 6 6 6-6" /></svg></button></td>
+                  <td title={path.kind === 'td' ? path.ids.join(' → ') : path.id}><span className="rp-fix-name mono">{fixName}</span><small className={`rp-fix-note ${path.kind}`}>{fixNote}{changed ? ' · chosen by you' : ''}</small></td>
+                  <td><div className="rp-status-cell"><span className={`rp-status ${status === 'Needs review' ? 'warn' : 'ok'}`}><i aria-hidden="true" />{status}</span>
+                    {status === 'Needs review' && <button type="button" className="rp-review" onClick={() => openReview(step)}>Review</button>}</div></td>
+                  <td className="rp-actions">
+                    <span className="rp-change"><button type="button" className="rp-change-button" aria-haspopup="menu" aria-expanded={menuFor === key} onClick={() => setMenuFor(menuFor === key ? null : key)}>Change</button>
+                      {menuFor === key && <div className="rp-menu" role="menu">
+                        {changed && <button type="button" role="menuitem" onClick={() => choose(key, null)}><strong>Use the recommendation</strong><small>{step.recommended.kind === 'td' ? step.recommended.ids.map(tdLabel).join(' + ') : step.recommended.id}</small></button>}
+                        {alternatives.map((td) => <button key={td.id} type="button" role="menuitem" onClick={() => choose(key, { kind: 'td', ids: [td.id], tdKind: td.kind })}><strong className="mono">{tdLabel(td.id)}</strong><small>{td.kind === 'managed' ? 'Managed TD' : 'Custom TD'} · {td.description}</small></button>)}
+                        {path.kind !== 'skill' && <button type="button" role="menuitem" onClick={() => choose(key, { kind: 'skill', id: SKILL_NAMES[initiative.id] || slugOf(initiative.title) })}><strong>Generate a specialized skill</strong><small>AWS Transform writes a skill for these findings; you review it before it runs</small></button>}
+                        <button type="button" role="menuitem" onClick={() => choose(key, { kind: 'leave' })}><strong>Leave out of this plan</strong><small>The findings stay open in Findings</small></button>
+                      </div>}</span>
+                  </td>
+                </tr>,
+                open.has(key) && <tr key={`${key}-findings`} className="rp-findings-row"><td /><td colSpan={4}><ul className="rp-findings">{findings.map((finding) => <li key={finding.id}><i style={{ background: SEVERITY_DOT[finding.severity] }} aria-label={finding.severity} />{finding.title}<span className="rp-finding-files mono">{finding.files.join(', ')}</span></li>)}</ul></td></tr>,
+              ];
+            })}</tbody>
+          </table>}
+          {leftOut.length > 0 && <p className="rp-leftout">Left out: {leftOut.map((step, index) => <span key={step.key}>{index > 0 && ', '}{stepTitle(step.initiative)} <button type="button" className="dash-link" onClick={() => choose(step.key, null)}>Add back</button></span>)}</p>}
+        </section>
+        <aside className="dash-card rp-side">
+          <div className="rp-ready">
+            {started ? <>
+              <h2>Remediation started</h2>
+              <p className="rp-help">AWS Transform is running {plural(allSteps.length, 'step')}{multi ? ` across ${prCount} ${repoWord(prCount)}` : ''}. {prCount === 1 ? 'The pull request opens' : 'Each pull request opens'} when its validation passes.</p>
+              <ul className="rp-branches">{Object.entries(plan).filter(([, entry]) => entry.steps.length).map(([name]) => <li key={name}><code>{branchOf(name)}</code></li>)}</ul>
+              <Button onClick={() => onNavigate('improved-rail-remediations')}>View in Remediations</Button>
+            </> : <>
+              <h2>{ready} of {plural(allSteps.length, 'step')} ready</h2>
+              <div className="rp-progress"><i style={{ width: `${(ready / allSteps.length) * 100}%` }} /></div>
+              <p className="rp-help">{toReview.length
+                ? `Approve the ${toReview.length === 1 ? '' : `${toReview.length} `}generated skill${toReview.length === 1 ? '' : 's'}${multi ? ` in ${new Set(toReview.map((step) => step.repo)).size} ${repoWord(new Set(toReview.map((step) => step.repo)).size)}` : ''}, switch ${toReview.length === 1 ? 'that step' : 'those steps'} to a TD, or turn on auto-approve.`
+                : `Every step is ready.${prCount > 1 ? ` AWS Transform opens ${prCount} pull requests, one per repository.` : ' Steps run back to back in one branch and are validated together.'}`}</p>
+              {toReview.length ? <Button onClick={() => openReview(toReview.find((step) => step.repo === repo) || toReview[0])}>Review next skill</Button> : <Button onClick={() => setStarted(true)}>{prCount > 1 ? `Start ${prCount} pull requests` : 'Start remediation'}</Button>}
+            </>}
+          </div>
+          {skillSteps > 0 && !started && <label className="rp-auto">
+            <span><strong>Auto-approve generated skills</strong><small>Skip review and start now. Changes are still validated before the pull request opens.</small></span>
+            <input type="checkbox" role="switch" checked={autoApprove} onChange={(event) => setAutoApprove(event.target.checked)} aria-label="Auto-approve generated skills" />
+          </label>}
+          <dl className="rp-stats">
+            <div><dt>Findings</dt><dd>{planFindings.length}</dd><small>{severityLine(planFindings) || ' '}</small></div>
+            <div><dt>Pull requests</dt><dd>{prCount}</dd><small>{prCount > 1 ? 'one per repository' : allSteps.length > 1 ? `instead of ${allSteps.length}` : ' '}</small></div>
+            <div><dt>Steps</dt><dd>{allSteps.length}</dd><small>{[tdSteps && plural(tdSteps, 'TD'), skillSteps && plural(skillSteps, 'skill')].filter(Boolean).join(' · ')}</small></div>
+            <div><dt>Effort</dt><dd>{effort}</dd><small>{prCount > 1 ? 'repositories in parallel' : 'back to back'}</small></div>
+          </dl>
+        </aside>
+      </div>}
+    {reviewStep && <div className="finding-detail-layer">
+      <button type="button" className="finding-detail-scrim" onClick={() => setReviewing(null)} aria-label="Close skill review" />
+      <aside className="finding-detail" role="dialog" aria-modal="true" aria-label={`Review ${reviewStep.path.id}`}>
+        <header><div><span className="breakdown-severity">Generated skill · {reviewStep.repo}</span><h2 className="mono">{reviewStep.path.id}</h2></div><button type="button" className="icon-button" onClick={() => setReviewing(null)} aria-label="Close"><Icon name="close" size={22} /></button></header>
+        <section><h3>What it changes in {reviewStep.repo}</h3><ol className="rp-review-list">{reviewStep.findings.map((finding) => <li key={finding.id}><strong>{finding.title}</strong><p>{finding.recommendation}</p></li>)}</ol></section>
+        <section><h3>Files it touches</h3><ul className="finding-files">{[...new Set(reviewStep.findings.flatMap((finding) => finding.files))].map((file) => <li key={file}><code>{file}</code></li>)}</ul></section>
+        <section><h3>How it's verified</h3><p>The build and existing tests run after the change. AWS Transform re-runs the analysis that found these issues and marks a finding resolved only if it no longer appears.</p></section>
+        <footer><Button onClick={() => { setReviewed((set) => new Set(set).add(reviewStep.key)); const next = toReview.find((step) => step.key !== reviewStep.key && step.repo === reviewStep.repo) || toReview.find((step) => step.key !== reviewStep.key); if (next && next.repo !== repo) setRepo(next.repo); setReviewing(next ? next.key : null); }}>Approve skill</Button><Button variant="outline" onClick={() => setReviewing(null)}>Not now</Button></footer>
+      </aside>
+    </div>}
+  </RailShell>;
+}
+
+// A12 · Remediation plan: several items, fixed in dependency order, one pull request per repository.
+let pendingItemsPlan = null;
+const openItemsPlan = (onNavigate, ids, repoName) => {
+  // Every generated plan is tracked in Remediations until it runs.
+  const itemIds = [...new Set(ESTATE_FINDINGS.filter((finding) => ids.includes(finding.id)).map((finding) => finding.initiative))];
+  const first = INITIATIVES.find((item) => item.id === itemIds[0]);
+  const planId = `plan-${WORK.seq}`;
+  updateWork((work) => { work.seq += 1; work.plans.push({ id: planId, name: repoName ? `All of ${repoName}` : `${stepShort(first)}${itemIds.length > 1 ? ` and ${itemIds.length - 1} more` : ''}`, itemIds, ids, status: 'generating', created: 'Today', createdAt: Date.now(), reviewed: [] }); });
+  window.setTimeout(() => updateWork(() => {
+    const plan = WORK.plans.find((entry) => entry.id === planId);
+    if (plan?.status !== 'generating') return;
+    const skills = itemIds.filter((id) => itemNeedsSkill(INITIATIVES.find((item) => item.id === id))).length;
+    Object.assign(plan, { status: skills ? 'review' : 'ready', toReview: skills });
+  }), 1500);
+  pendingItemsPlan = { ids, generate: true, planId };
+  onNavigate('improved-rail-plan');
+};
+const planFindingIds = (plan) => plan.ids || ESTATE_FINDINGS.filter((finding) => plan.itemIds.includes(finding.initiative) && finding.status === 'Open').map((finding) => finding.id);
+const openPlanById = (onNavigate, planId) => {
+  const plan = WORK.plans.find((entry) => entry.id === planId);
+  pendingItemsPlan = { ids: planFindingIds(plan), generate: false, name: plan.name, created: plan.created, planId };
+  onNavigate('improved-rail-plan');
+};
+// Opened directly, the plan shows a representative selection: Java, base images and secrets.
+const DEFAULT_PLAN_ITEMS = ['java', 'base-images', 'secrets'];
+// Choices AWS Transform makes when it drafts a skill; the first option is the recommendation.
+const SKILL_DECISIONS = {
+  secrets: [['Store', ['AWS Secrets Manager', 'AWS Systems Manager Parameter Store']], ['Rotation', ['Every 30 days', 'Every 90 days', 'Manual only']], ['Git history', ['Scrub in a separate commit', 'Leave history as is']], ['Scope', ['Config and secret files only', 'Whole repository']]],
+  access: [['IAM policies', ['Scope to actions used in the last 90 days', 'Scope to a reviewed allow list']], ['Session expiry', ['1 hour with refresh', '8 hours']], ['PII', ['Redact in logs and encrypt at rest', 'Redact in logs only']]],
+  'payment-coupling': [['Pattern', ['Repository interface', 'Service layer only']], ['Rollout', ['Behind a feature flag', 'Direct cut-over']]],
+  cicd: [['Platform', ['GitHub Actions', 'AWS CodePipeline']], ['Deploys', ['On merge to main', 'Manual approval']]],
+  mylearning: [['Test runner', ['Jest + React Testing Library', 'Vitest']], ['Coverage gate', ['60% of changed lines', 'Report only']]],
+};
+// Target / Approach / Validation / Guardrails for a generated skill: [summary, detail]. Secrets reads the decisions.
+const SKILL_SPEC = {
+  secrets: (pick) => ({
+    Target: [`${pick('Store')} · rotated ${pick('Rotation').toLowerCase()}`, 'Every credential found in config, history and bundles is loaded at runtime instead of read from source.'],
+    Approach: ['Replace in code, revoke the exposed key, then rotate', 'Each value is moved to the secret store first, the committed AWS key is revoked, then rotation is switched on. Each step is its own commit.'],
+    Validation: ['Service boots and tests pass with no secrets in code', 'Secret scanning re-runs on the branch and must report zero findings before the pull request opens.'],
+    Guardrails: [`${pick('Scope')} · history ${pick('Git history') === 'Leave history as is' ? 'left as is' : 'scrubbed in a separate commit'}`, 'AWS Transform stops and asks you if a change would touch files outside this scope.'],
+  }),
+};
+const skillSpec = (initiative, findings, pick) => {
+  if (SKILL_SPEC[initiative.id]) return SKILL_SPEC[initiative.id](pick);
+  const draft = SKILL_DRAFTS[initiative.id] || genericDraft(initiative, findings);
+  return {
+    Target: [draft.target, `Covers ${findings.length} finding${findings.length === 1 ? '' : 's'}. AWS Transform re-runs the original rule after merge to confirm the fix.`],
+    Approach: [draft.approach, 'Each step is a separate commit on one branch, so a reviewer can follow the change.'],
+    Validation: [draft.validation, 'Validation runs before the pull request opens; the skill stops if a check fails.'],
+    Guardrails: [draft.guardrails, 'AWS Transform stops and asks you if a change would fall outside these bounds.'],
+  };
+};
+// What a TD does for a specific item: which findings it covers, how it validates, and what it leaves undone.
+const TD_DETAILS = {
+  'Custom/secrets-manager-migration': {
+    version: 'v1.4', covers: (finding) => finding.repo !== R.mobile, validations: [3, 4],
+    tradeoff: 'Server-side only. MKPMobile’s API key needs a backend proxy this TD doesn’t build.',
+    spec: { Target: 'AWS Secrets Manager', Approach: 'Replace server-side config values with lookups', Validation: 'Service boots; secret scan is clean on server code', Guardrails: 'Server config only · mobile bundles untouched' },
+    decisions: 'AWS Secrets Manager · rotate every 90 days',
+  },
+  'Custom/acme-secrets-hygiene-v2': {
+    version: 'v2.0', covers: () => true, validations: [4, 4],
+    tradeoff: 'Uses your Security team’s vault references. Rotation stays a manual runbook.',
+    spec: { Target: 'Vault references from the Security team’s registry', Approach: 'Swap literals for vault references, then rotate by runbook', Validation: 'Secret scan is clean across config, history and bundles', Guardrails: 'Config, history and bundle files · no code paths changed' },
+    decisions: 'HashiCorp Vault · manual rotation',
+  },
+  'AWS/git-history-secret-purge': {
+    version: 'v1.1', covers: (finding) => /history/i.test(finding.title), validations: [2, 4],
+    tradeoff: 'Only removes the committed key from history. It doesn’t move or rotate any secret.',
+    spec: { Target: 'Repository history', Approach: 'Rewrite history to drop the committed key', Validation: 'History scan no longer finds the key', Guardrails: 'History only · working tree untouched' },
+    decisions: 'Force-push to a protected branch · after rotation',
+  },
+};
+// The recommended TD chain for an item, described as one fix.
+const CHAIN_DETAILS = {
+  java: { why: 'Covers the runtime, Spring Boot, the AWS SDK and Log4j in both repositories.', spec: { Target: 'Java 21, then AWS SDK v2 and SLF4J', Approach: 'Runtime first, then dependencies that build on it, in one branch', Validation: 'Build, unit and integration tests pass on Java 21', Guardrails: 'Build files and code the upgrade requires' }, decisions: 'Java 21 · Spring Boot 3 · AWS SDK v2 · SLF4J' },
+  'base-images': { why: 'Rebuilds every image on Amazon Linux 2023, which clears the OpenSSL, glibc and curl CVEs and removes Python 2.7.', spec: { Target: 'Amazon Linux 2023 base image', Approach: 'Swap the FROM line, then rebuild and re-scan each image', Validation: 'Image scan is clean; the service starts and health checks pass', Guardrails: 'Dockerfiles only · application code untouched' }, decisions: 'amazonlinux:2023 · pinned digest' },
+};
+function tdOptionDetail(option, item, findings) {
+  if (option.ids.length === 1 && !option.recommended) return tdDetail(TD_LIBRARY.find((td) => td.id === option.ids[0]) || { id: option.ids[0], description: option.ids[0], fits: {}, kind: option.kind }, item, findings);
+  const chain = CHAIN_DETAILS[item.id];
+  const repos = [...new Set(findings.map((finding) => finding.repo))];
+  return {
+    covers: () => true, validations: [4, 4],
+    why: chain?.why || `Covers all ${findings.length} finding${findings.length === 1 ? '' : 's'} in ${repos.length === 1 ? repos[0] : `${repos.length} repositories`}.`,
+    tradeoff: '',
+    spec: chain?.spec || { Target: option.ids.map(tdLabel).join(', then '), Approach: option.ids.length > 1 ? 'Each TD runs in order in one branch' : 'Apply the TD’s recipe one commit per change', Validation: 'Build and tests pass; the original rule re-runs clean', Guardrails: 'Files the TD declares · nothing else' },
+    decisions: chain?.decisions || 'TD defaults',
+  };
+}
+function tdDetail(td, item, findings) {
+  if (TD_DETAILS[td.id]) return TD_DETAILS[td.id];
+  // Without curated details, a TD covers the first N findings its catalog entry says it fits.
+  const n = td.fits[item.id] ?? findings.length;
+  const covered = new Set(findings.slice(0, n).map((finding) => finding.id));
+  return {
+    version: td.generated ? 'v1.0 · generated' : 'v1.0', covers: (finding) => covered.has(finding.id), validations: n >= findings.length ? [4, 4] : [3, 4],
+    why: `${td.description}. Covers every finding in this item.`,
+    tradeoff: n >= findings.length ? 'Covers every finding in this item.' : 'Covers part of this item. The rest stays open until another fix covers it.',
+    spec: { Target: td.description, Approach: 'Apply the TD’s recipe one commit per change', Validation: 'Build and tests pass; the original rule re-runs clean', Guardrails: 'Files the TD declares · nothing else' },
+    decisions: 'TD defaults',
+  };
+}
+// Advice that isn't part of the skill but matters for the change to be safe.
+const SKILL_ADVICE = {
+  secrets: (repos) => [
+    repos.includes(R.payments) && 'Revoke the committed AWS key before this merges. Scrubbing history doesn’t revoke it.',
+    repos.includes(R.mobile) && 'MKPMobile’s API key should move behind a backend proxy. A mobile bundle can’t hold a secret safely.',
+  ].filter(Boolean),
+  access: () => ['Check which services read the payment-exports bucket before blocking public access.'],
+};
+const SKILL_CHANGES = {
+  secrets: ['Replace hard-coded values with AWS Secrets Manager lookups', 'Add a rotation runbook and revoke the committed key', 'Scrub the key from repository history in a separate commit'],
+};
+
+function RailItemsPlan({ onNavigate }) {
+  // Read the hand-off in the initializer and clear it in an effect: StrictMode calls initializers twice in dev.
+  const [start] = useState(() => pendingItemsPlan || { ids: ESTATE_FINDINGS.filter((finding) => DEFAULT_PLAN_ITEMS.includes(finding.initiative) && finding.status === 'Open').map((finding) => finding.id), generate: false });
+  useEffect(() => { pendingItemsPlan = null; }, []);
+  const [tracked] = useState(() => WORK.plans.find((plan) => plan.id === start.planId) || null);
+  const [generating, setGenerating] = useState(start.generate);
+  useEffect(() => { if (!generating) return undefined; const timer = window.setTimeout(() => setGenerating(false), 1500); return () => window.clearTimeout(timer); }, [generating]);
+  const [choices, setChoices] = useState({});
+  const [reviewed, setReviewed] = useState(() => new Set(tracked?.reviewed || []));
+  const [autoApprove, setAutoApprove] = useState(false);
+  const [open, setOpen] = useState(() => new Set());
+  const [menuFor, setMenuFor] = useState(null);
+  const [reviewing, setReviewing] = useState(null);
+  const [decisions, setDecisions] = useState({});
+  const [contexts, setContexts] = useState({});
+  const [publish, setPublish] = useState({});
+  const [started, setStarted] = useState(tracked?.status === 'running');
+  const [reviewTab, setReviewTab] = useState('skill');
+  const [editing, setEditing] = useState(null);
+  const [specEdits, setSpecEdits] = useState({});
+  const [openSpec, setOpenSpec] = useState(() => new Set());
+  const [addingContext, setAddingContext] = useState(null);
+  const [tdPick, setTdPick] = useState({});
+  const [tdQuery, setTdQuery] = useState('');
+  const [removedRepos, setRemovedRepos] = useState([]);
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  const repoWord = (n) => (n === 1 ? 'repository' : 'repositories');
+  const picked = ESTATE_FINDINGS.filter((finding) => start.ids.includes(finding.id) && !removedRepos.includes(finding.repo));
+  const allItems = [...new Set(picked.map((finding) => finding.initiative))].map((id) => INITIATIVES.find((item) => item.id === id)).map((initiative) => {
+    const all = picked.filter((finding) => finding.initiative === initiative.id);
+    const recommended = planPath(initiative, all);
+    const path = choices[initiative.id] || recommended;
+    // A TD that covers part of the item leaves the rest open; those findings drop out of the plan.
+    const findings = path.leaves ? all.filter((finding) => !path.leaves.includes(finding.id)) : all;
+    const stayOpen = path.leaves ? all.filter((finding) => path.leaves.includes(finding.id)) : [];
+    return { key: initiative.id, initiative, findings, stayOpen, all, repos: [...new Set(findings.map((finding) => finding.repo))], recommended, path };
+  });
+  const items = allItems.filter((item) => item.path.kind !== 'leave').sort((a, b) => planRank(a.initiative) - planRank(b.initiative) || byPriority(a.initiative, b.initiative));
+  const leftOut = allItems.filter((item) => item.path.kind === 'leave');
+  // An item waits on an earlier one when both change the same file in the same repository.
+  const waitsOn = (item, index) => {
+    const touched = new Set(item.findings.flatMap((finding) => finding.files.map((file) => `${finding.repo}:${file}`)));
+    for (const earlier of items.slice(0, index)) {
+      const shared = earlier.findings.flatMap((finding) => finding.files.map((file) => [`${finding.repo}:${file}`, file, finding.repo])).filter(([key]) => touched.has(key));
+      if (shared.length) return { item: earlier, file: shared[0][1].split('/').pop(), repos: [...new Set(shared.map(([, , repo]) => repo))] };
+    }
+    return null;
+  };
+  const deps = items.map((item, index) => waitsOn(item, index));
+  const waitingRepos = new Set(deps.flatMap((dep) => (dep ? dep.repos : [])));
+  const isReady = (item) => item.path.kind === 'td' || reviewed.has(item.key) || autoApprove;
+  const statusOf = (item) => (item.path.kind === 'td' || reviewed.has(item.key) ? 'Ready' : autoApprove ? 'Auto-approved' : 'Needs review');
+  const ready = items.filter(isReady).length;
+  const toReview = items.filter((item) => !isReady(item));
+  const planFindings = items.flatMap((item) => item.findings);
+  const planRepos = [...new Set(planFindings.map((finding) => finding.repo))];
+  const tdItems = items.filter((item) => item.path.kind === 'td').length;
+  const skillItems = items.length - tdItems;
+  const effort = items.map((item) => item.initiative.effort).sort((a, b) => effortRank(b) - effortRank(a))[0];
+  const severityLine = (list) => ['Critical', 'High'].map((level) => [level, list.filter((finding) => finding.severity === level).length]).filter(([, n]) => n).map(([level, n]) => `${n} ${level.toLowerCase()}`).join(' · ');
+  const choose = (key, path) => { setChoices((current) => ({ ...current, [key]: path })); setMenuFor(null); setStarted(false); if (reviewing === key) setReviewing(null); };
+  const editSelection = () => { pendingFindingsFocus = { picked: planFindings.map((finding) => finding.id) }; onNavigate('improved-findings'); };
+  const flipOpen = (key) => setOpen((set) => { const next = new Set(set); if (next.has(key)) next.delete(key); else next.add(key); return next; });
+  useEffect(() => {
+    if (!tracked) return;
+    updateWork(() => Object.assign(tracked, {
+      status: generating ? 'generating' : started ? 'running' : toReview.length ? 'review' : 'ready',
+      startedAt: started ? tracked.startedAt || Date.now() : undefined,
+      reviewed: [...reviewed], items: items.length, findings: planFindings.length, repos: planRepos.length, toReview: toReview.length,
+    }));
+  }, [generating, started, toReview.length, reviewed.size, items.length, planFindings.length, planRepos.length]);
+  const fixedBy = (path) => {
+    if (path.kind === 'skill') return [path.id, 'Generated skill'];
+    const [first, ...rest] = path.ids.map(tdLabel);
+    return [first, `${path.generated ? 'Custom TD · generated for you' : path.tdKind === 'custom' ? 'Custom TD' : 'Managed TD'}${rest.length ? ` · then ${rest.join(', ')}` : ''}`];
+  };
+  const decisionsFor = (item) => SKILL_DECISIONS[item.initiative.id] || [['Approach', ['Smallest change that clears the findings', 'Broader refactor of the affected code']]];
+  const approve = (item) => { setReviewed((set) => new Set(set).add(item.key)); setEditing(null); const next = toReview.find((other) => other.key !== item.key); openReview(next ? next.key : null); };
+  // Review opens the skill tab; Change opens the TD tab with the current fix selected.
+  const openReview = (key, tab = 'skill') => { setReviewing(key); setReviewTab(tab); setEditing(null); setTdQuery(''); if (key) setTdPick((current) => { const next = { ...current }; delete next[key]; return next; }); };
+  const flipSpec = (id) => setOpenSpec((set) => { const next = new Set(set); if (next.has(id)) next.delete(id); else next.add(id); return next; });
+
+  if (generating) {
+    return <RailShell active="Findings" onNavigate={onNavigate}><div className="plan-page">
+      <nav className="rem-breadcrumb" aria-label="Breadcrumb"><button type="button" onClick={editSelection}>Findings</button><span>›</span><span>Remediation plan</span></nav>
+      <div className="rp-head"><div><h1>Remediation plan</h1></div></div>
+      <section className="plan-generating" role="status" aria-live="polite">
+        <span className="initiatives-ai-mark"><AssistantMark size={18} /></span>
+        <div><strong>Creating your campaign</strong>
+          <p>Ordering {plural(items.length, 'item')} across {planRepos.length} {repoWord(planRepos.length)}, matching TDs and drafting skills where none fit…</p>
+          <div className="plan-generating-bar"><i /></div></div>
+      </section>
+      <div className="rp-layout plan-skeleton" aria-hidden="true">
+        <section className="dash-card rp-steps"><header><div><span className="sk w120" /><span className="sk w260" /></div></header>
+          {items.map((item) => <div key={item.key} className="sk-row"><span className="sk dot" /><div><span className="sk w220" /><span className="sk w140" /></div><div><span className="sk w200" /><span className="sk w100" /></div><span className="sk w80" /></div>)}</section>
+        <aside className="dash-card rp-side"><div className="rp-ready"><span className="sk w160" /><span className="sk bar" /><span className="sk w240" /><span className="sk btn" /></div></aside>
+      </div>
+    </div></RailShell>;
+  }
+
+  return <RailShell active="Findings" onNavigate={onNavigate}><div className="plan-page">
+    <nav className="rem-breadcrumb" aria-label="Breadcrumb"><button type="button" onClick={editSelection}>Findings</button><span>›</span><span>Remediation plan</span></nav>
+    <div className="rp-head">
+      <div><h1>Remediation plan</h1>
+        <p>{[start.name && `${start.name} · saved ${start.created}`, plural(items.length, 'item'), plural(planFindings.length, 'finding'), `${planRepos.length} ${repoWord(planRepos.length)}`, planRepos.length > 1 ? 'one pull request each' : 'one pull request'].filter(Boolean).join(' · ')}</p></div>
+      <button type="button" className="initiative-review" onClick={editSelection}>Edit selection</button>
+    </div>
+    <CrossRepoWarning repos={planRepos} onRemove={(name) => { setRemovedRepos((current) => [...current, name]); setStarted(false); }} />
+    {removedRepos.length > 0 && <p className="xrepo-removed">Removed from this plan: {removedRepos.map((name, index) => <span key={name}>{index > 0 && ', '}<code>{name}</code> <button type="button" className="dash-link" onClick={() => setRemovedRepos((current) => current.filter((other) => other !== name))}>Add back</button></span>)}. Its findings stay open in Findings.</p>}
+    {items.length === 0 ? <section className="dash-card rp-empty"><strong>Everything is left out of this plan</strong><button type="button" className="dash-link" onClick={editSelection}>Edit selection</button></section>
+      : <div className="rp-layout">
+        <div className="rp-main">
+        <section className="dash-card rp-steps">
+          <header>
+            <div><h2>Fixes <span>{items.length}</span></h2>
+              <p><AssistantSpark />{[tdItems && `${tdItems} existing TD${tdItems === 1 ? '' : 's'}`, skillItems && `${plural(skillItems, 'skill')} generated by AWS Transform`].filter(Boolean).join(' · ')}</p></div>
+            <span>In dependency order</span>
+          </header>
+          <table className="rp-table">
+            <colgroup><col style={{ width: 56 }} /><col /><col style={{ width: '30%' }} /><col style={{ width: 210 }} /><col style={{ width: 92 }} /></colgroup>
+            <thead><tr><th /><th>Fix</th><th>Fixed by</th><th>Status</th><th><span className="sr-only">Actions</span></th></tr></thead>
+            <tbody>{items.map((item, index) => {
+              const { key, initiative, findings, path } = item;
+              const changed = Boolean(choices[key]);
+              const [fixName, fixNote] = fixedBy(path);
+              const status = statusOf(item);
+              const dep = deps[index];
+              const isOpen = reviewing === key;
+              return [
+                <tr key={key} className={isOpen ? 'rp-row-open' : ''}>
+                  <td><span className="rp-num">{index + 1}</span></td>
+                  <td><strong className="rp-step-title">{stepTitle(initiative)}</strong>
+                    <button type="button" className="rp-count" aria-expanded={open.has(key)} onClick={() => flipOpen(key)}>{plural(findings.length, 'finding')} · {item.repos.length} {repoWord(item.repos.length)} <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ transform: open.has(key) ? 'rotate(180deg)' : 'none' }}><path d="m6 9 6 6 6-6" /></svg></button>
+                    {dep && <small className="rp-dep">After {stepShort(dep.item.initiative).replace(/^./, (c) => c.toUpperCase())} · both change {dep.file}</small>}</td>
+                  <td title={path.kind === 'td' ? path.ids.join(' → ') : path.id}><span className="rp-fix-name mono">{fixName}</span><small className={`rp-fix-note ${path.kind}`}>{fixNote}{changed ? ' · chosen by you' : ''}</small>{item.stayOpen?.length > 0 && <small className="rp-stays-open">{item.stayOpen.length} finding{item.stayOpen.length === 1 ? '' : 's'} stay{item.stayOpen.length === 1 ? 's' : ''} open</small>}</td>
+                  <td><div className="rp-status-cell"><span className={`rp-status ${status === 'Needs review' ? 'warn' : 'ok'}`}><i aria-hidden="true" />{status}</span>
+                    {status === 'Needs review' && <button type="button" className="rp-review" aria-expanded={isOpen} onClick={() => openReview(isOpen ? null : key)}>Review</button>}</div></td>
+                  <td className="rp-actions">
+                    <button type="button" className={`rp-change-button ${isOpen && reviewTab === 'td' ? 'on' : ''}`} aria-expanded={isOpen && reviewTab === 'td'} onClick={() => (isOpen && reviewTab === 'td' ? setReviewing(null) : openReview(key, 'td'))}>Change</button>
+                  </td>
+                </tr>,
+                open.has(key) && <tr key={`${key}-findings`} className="rp-findings-row"><td /><td colSpan={4}><ul className="rp-findings">{findings.map((finding) => <li key={finding.id}><i style={{ background: SEVERITY_DOT[finding.severity] }} aria-label={finding.severity} />{finding.title}<span className="rp-finding-files mono">{finding.repo}</span></li>)}</ul></td></tr>,
+                isOpen && <tr key={`${key}-review`} className="rp-review-row"><td /><td colSpan={4}>
+                  {(() => {
+                    const pick = (label) => decisions[`${key}:${label}`] ?? decisionsFor(item).find(([name]) => name === label)?.[1][0];
+                    const spec = skillSpec(initiative, findings, pick);
+                    const advice = SKILL_ADVICE[initiative.id]?.(item.repos) || [];
+                    const decisionValues = decisionsFor(item).map(([label]) => pick(label));
+                    const allRecommended = decisionsFor(item).every(([label, options]) => pick(label) === options[0]);
+                    const skillId = path.kind === 'skill' ? path.id : SKILL_NAMES[initiative.id] || slugOf(initiative.title);
+                    const usingSkill = path.kind === 'skill';
+                    // TD choices: the recommendation and the current fix first, then other TDs that fit this item.
+                    const optionOf = (ids, kind, flags) => ({ key: ids.join('+'), ids, kind, ...flags });
+                    const recOption = item.recommended.kind === 'td' ? optionOf(item.recommended.ids, item.recommended.tdKind, { recommended: true, current: path.kind === 'td' && path.ids.join('+') === item.recommended.ids.join('+') }) : null;
+                    const curOption = path.kind === 'td' && !recOption?.current ? optionOf(path.ids, path.tdKind, { current: true }) : null;
+                    const lead = [recOption, curOption].filter(Boolean);
+                    const tdOptions = [...lead, ...TD_LIBRARY.filter((td) => initiative.id in td.fits && !lead.some((option) => option.ids.length === 1 && option.ids[0] === td.id)).map((td) => optionOf([td.id], td.kind, {}))];
+                    const tdChoice = tdPick[key] || (lead.find((option) => option.current) || tdOptions[0])?.key;
+                    const isEditing = editing === key;
+                    return <div className="rp-inline-review tf">
+                      <header><strong>Transformation</strong>
+                        <div className="tf-toggle" role="tablist" aria-label="How to fix">{[['skill', 'Specialized skill'], ['td', 'Managed or custom TD']].map(([value, label]) => <button key={value} type="button" role="tab" aria-selected={reviewTab === value} className={reviewTab === value ? 'active' : ''} onClick={() => setReviewTab(value)}>{label}</button>)}</div></header>
+                      {reviewTab === 'skill' ? <>
+                        <div className="tf-skill">
+                          <span className="tf-skill-mark" aria-hidden="true">✦</span>
+                          <div><strong className="mono">{skillId}</strong><small>{usingSkill ? 'Generated' : 'AWS Transform can generate this'} from your analysis · covers {plural(findings.length, 'finding')} in {item.repos.length} {repoWord(item.repos.length)}</small></div>
+                          <button type="button" className={`tf-edit ${isEditing ? 'on' : ''}`} onClick={() => setEditing(isEditing ? null : key)}>✎ {isEditing ? 'Done editing' : 'Edit skill'}</button>
+                        </div>
+                        <ul className="tf-spec">{Object.entries(spec).map(([name, [summary, detail]]) => {
+                          const editKey = `${key}:${name}`;
+                          const value = specEdits[editKey] ?? summary;
+                          const expanded = openSpec.has(editKey) || isEditing;
+                          return <li key={name} className={expanded ? 'open' : ''}>
+                            <button type="button" className="tf-spec-row" aria-expanded={expanded} onClick={() => flipSpec(editKey)}>
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
+                              <span className="tf-spec-name">{name}</span><span className="tf-spec-value">{value}</span>
+                              <span className={`tf-badge ${specEdits[editKey] !== undefined && specEdits[editKey] !== summary ? 'edited' : ''}`}>{specEdits[editKey] !== undefined && specEdits[editKey] !== summary ? 'Edited' : 'Default'}</span></button>
+                            {expanded && <div className="tf-spec-detail">{isEditing ? <input value={value} onChange={(event) => setSpecEdits((current) => ({ ...current, [editKey]: event.target.value }))} aria-label={`${name} for ${skillId}`} /> : null}<p>{detail}</p></div>}
+                          </li>;
+                        })}</ul>
+                        <div className="tf-line"><span className="tf-label">Decisions</span>
+                          {isEditing ? <div className="tf-decisions">{decisionsFor(item).map(([label, options]) => <label key={label}><span>{label}</span><select value={pick(label)} onChange={(event) => setDecisions((current) => ({ ...current, [`${key}:${label}`]: event.target.value }))}>{options.map((option, at) => <option key={option} value={option}>{option}{at === 0 ? ' (recommended)' : ''}</option>)}</select></label>)}</div>
+                            : <span className="tf-value">{decisionValues.join(' · ')}</span>}
+                          {!isEditing && <span className="tf-note">{allRecommended ? 'Recommended' : 'Changed by you'}</span>}</div>
+                        {advice.length > 0 && <div className="tf-line tf-advice"><span className="tf-label"><AssistantSpark /> Recommended</span><ul>{advice.map((line) => <li key={line}>{line}</li>)}</ul></div>}
+                        <div className="tf-line"><span className="tf-label">Context</span>
+                          {addingContext === key || contexts[key]
+                            ? <textarea className="rp-context" rows={2} autoFocus={addingContext === key} value={contexts[key] || ''} onChange={(event) => setContexts((current) => ({ ...current, [key]: event.target.value }))} placeholder="Anything AWS Transform should know, e.g. “keys live in the shared-config repo”" />
+                            : <><span className="tf-value muted">None added</span><button type="button" className="dash-link tf-link" onClick={() => setAddingContext(key)}>Add context</button></>}</div>
+                        <div className="tf-line"><span className="tf-label">After it runs</span>
+                          <div className="rp-publish" role="radiogroup" aria-label="After it runs">{[['publish', 'Run, then publish', 'Shared in the Skills Library once it passes validation'], ['draft', 'Publish a draft now', 'Visible right away, marked “Not yet validated”'], ['plan', 'Keep it to this plan', 'Nothing is shared']].map(([value, title, blurb]) => <label key={value} className={(publish[key] || 'publish') === value ? 'selected' : ''}><input type="radio" name={`publish-${key}`} checked={(publish[key] || 'publish') === value} onChange={() => setPublish((current) => ({ ...current, [key]: value }))} /><span><strong>{title}</strong><small>{blurb}</small></span></label>)}</div></div>
+                        <footer>{usingSkill ? <Button onClick={() => approve(item)}>Approve skill</Button> : <Button onClick={() => { choose(key, { kind: 'skill', id: skillId }); setReviewed((set) => new Set(set).add(key)); }}>Use this skill</Button>}<button type="button" className="tf-close" onClick={() => setReviewing(null)}>Close</button><button type="button" className="dash-link tf-link tf-full" onClick={() => reviewSkill(initiative, onNavigate, findings.length)}>Open full page</button></footer>
+                      </> : (() => {
+                        const options = tdOptions.length ? tdOptions : TD_LIBRARY.map((td) => optionOf([td.id], td.kind, {}));
+                        const option = options.find((entry) => entry.key === tdChoice) || options[0];
+                        const detail = tdOptionDetail(option, initiative, item.all);
+                        const covered = item.all.filter(detail.covers);
+                        const open = item.all.filter((finding) => !detail.covers(finding));
+                        const name = (entry) => { const version = entry.ids.length === 1 && !entry.recommended ? tdOptionDetail(entry, initiative, item.all).version : null; return [`${tdLabel(entry.ids[0])}${version ? ` ${version}` : ''}`, entry.recommended && 'Recommended', entry.current && 'Current'].filter(Boolean).join(' · '); };
+                        return <>
+                          {!tdOptions.length && <p className="tf-td-help">No TD in your registry was matched to these findings. Pick one to see what it would cover.</p>}
+                          <div className="tf-td-pick">
+                            <span className={`tf-td-kind ${option.kind}`} title={option.kind === 'managed' ? 'Managed TD' : 'Custom TD'}>{option.kind === 'managed' ? 'M' : 'C'}</span>
+                            <select value={option.key} onChange={(event) => setTdPick((current) => ({ ...current, [key]: event.target.value }))} aria-label="Transformation definition">
+                              {options.map((entry) => <option key={entry.key} value={entry.key}>{name(entry)}</option>)}
+                            </select>
+                            <span className={`tf-td-cover ${covered.length === item.all.length && detail.validations[0] === detail.validations[1] ? 'full' : ''}`}>Covers {covered.length} of {plural(item.all.length, 'finding')} · {detail.validations[0]} of {detail.validations[1]} validations</span>
+                          </div>
+                          {open.length ? <p className="tf-tradeoff"><strong>Trade-off:</strong> {detail.tradeoff} <span className="tf-stays">Stays open: {open.map((finding) => finding.title).join(', ')}.</span></p>
+                            : <p className="tf-tradeoff"><strong>Why this TD:</strong> {detail.why || detail.tradeoff}</p>}
+                          <ul className="tf-spec">{Object.entries(detail.spec).map(([label, value]) => <li key={label}>
+                            <div className="tf-spec-row static"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
+                              <span className="tf-spec-name">{label}</span><span className="tf-spec-value">{value}</span><span className="tf-badge">{option.kind === 'managed' ? 'Managed' : 'Custom'}</span></div>
+                          </li>)}</ul>
+                          <div className="tf-line"><span className="tf-label">Decisions</span><span className="tf-value">{detail.decisions}</span><span className="tf-note">Set by this TD</span></div>
+                          <div className="tf-line"><span className="tf-label">Context</span>
+                            {addingContext === key || contexts[key]
+                              ? <textarea className="rp-context" rows={2} autoFocus={addingContext === key} value={contexts[key] || ''} onChange={(event) => setContexts((current) => ({ ...current, [key]: event.target.value }))} placeholder="Anything AWS Transform should know" />
+                              : <><span className="tf-value muted">None added</span><button type="button" className="dash-link tf-link" onClick={() => setAddingContext(key)}>Add context</button></>}</div>
+                          <footer>{option.current
+                            ? <Button onClick={() => setReviewing(null)}>Keep this TD</Button>
+                            : <Button onClick={() => { if (option.recommended) choose(key, null); else choose(key, { kind: 'td', ids: option.ids, tdKind: option.kind, leaves: open.length ? open.map((finding) => finding.id) : undefined }); }}>Use this TD</Button>}
+                            <button type="button" className="tf-close" onClick={() => setReviewing(null)}>Close</button><button type="button" className="dash-link tf-link tf-full" onClick={() => choose(key, { kind: 'leave' })}>Leave out of this plan</button></footer>
+                        </>;
+                      })()}
+                    </div>;
+                  })()}
+                </td></tr>,
+              ];
+            })}</tbody>
+          </table>
+          {leftOut.length > 0 && <p className="rp-leftout">Left out: {leftOut.map((item, index) => <span key={item.key}>{index > 0 && ', '}{stepTitle(item.initiative)} <button type="button" className="dash-link" onClick={() => choose(item.key, null)}>Add back</button></span>)}</p>}
+        </section>
+        </div>
+        <aside className="dash-card rp-side">
+          <div className="rp-ready">
+            {started ? <>
+              <h2>Remediation started</h2>
+              <p className="rp-help">AWS Transform is running {items.length} fix{items.length === 1 ? '' : 'es'} across {planRepos.length} {repoWord(planRepos.length)}. Each pull request opens when its validation passes.</p>
+              <ul className="rp-branches">{planRepos.map((name) => <li key={name}><code>atx/remediate-{slugOf(name)}</code></li>)}</ul>
+              <Button onClick={() => onNavigate('improved-rail-remediations')}>View in Remediations</Button>
+            </> : <>
+              <h2>{ready} of {plural(items.length, 'item')} ready</h2>
+              <div className="rp-progress"><i style={{ width: `${(ready / items.length) * 100}%` }} /></div>
+              <p className="rp-help">{toReview.length
+                ? `Approve the generated skill${toReview.length === 1 ? '' : 's'}, switch ${toReview.length === 1 ? 'that item' : 'those items'} to a TD, or turn on auto-approve.`
+                : `Every item is ready. AWS Transform opens ${planRepos.length > 1 ? `${planRepos.length} pull requests, one per repository` : 'one pull request'}.`}</p>
+              {toReview.length ? <Button onClick={() => openReview(toReview[0].key)}>Review next skill</Button> : <Button onClick={() => setStarted(true)}>Start {plural(planRepos.length, 'pull request')}</Button>}
+            </>}
+          </div>
+          {skillItems > 0 && !started && <label className="rp-auto">
+            <span><strong>Auto-approve generated skills</strong><small>Skip review and start now. Changes are still validated before the pull request opens.</small></span>
+            <input type="checkbox" role="switch" checked={autoApprove} onChange={(event) => setAutoApprove(event.target.checked)} aria-label="Auto-approve generated skills" />
+          </label>}
+          <dl className="rp-stats">
+            <div><dt>Findings</dt><dd>{planFindings.length}</dd><small>{severityLine(planFindings) || ' '}</small></div>
+            <div><dt>Pull requests</dt><dd>{planRepos.length}</dd><small>{planRepos.length > 1 ? 'one per repository' : `instead of ${items.length}`}</small></div>
+            <div><dt>Repositories</dt><dd>{planRepos.length}</dd><small>{linkedRepos(planRepos).length >= 2 ? `${linkedRepos(planRepos).length} may depend on each other` : waitingRepos.size ? `${waitingRepos.size} wait${waitingRepos.size === 1 ? 's' : ''} on another` : 'no waits'}</small></div>
+            <div><dt>Effort</dt><dd>{effort}</dd><small>in parallel</small></div>
+          </dl>
+        </aside>
+      </div>}
+  </div></RailShell>;
 }
 
 // Chat assistant for the rail pages: a docked panel with rich replies, artifacts, and suggested follow-ups.
@@ -1177,11 +2089,11 @@ function chatReply(prompt, onNavigate) {
     suggestions: ['Apply the team split', 'What can I start today?'],
   };
   if (lower.includes('archived')) return {
-    body: <p>None of the 6 analyzed repositories are archived, so nothing changes — all 9 initiatives and 49 findings stay. I’ll exclude archived repositories automatically from future groupings.</p>,
+    body: <p>None of the 6 analyzed repositories are archived, so nothing changes — all 9 exposures and 49 findings stay. I’ll exclude archived repositories automatically from future groupings.</p>,
     suggestions: ['Split by team', 'What can I start today?'],
   };
   if (lower.includes('apply the team split')) return {
-    body: <p>Done — I’ll show the team as a grouping option once owners are confirmed in Settings. Your current initiatives and order are unchanged until then.</p>,
+    body: <p>Done — I’ll show the team as a grouping option once owners are confirmed in Settings. Your current exposures and order are unchanged until then.</p>,
     suggestions: ['What can I start today?'],
   };
   if (lower.includes('fix first') || lower.includes('start today')) return {
@@ -2533,7 +3445,7 @@ function Toast({ text, onClose }) {
 // Remediation efforts in flight. One initiative can need several efforts (the change itself plus the
 // enabling or preparation work it depends on), so efforts outnumber in-progress initiatives.
 const EFFORTS = [
-  { id: 'expo', state: 'progress', type: 'Direct', title: 'Upgrade MKPMobile to Expo SDK 51', line1: 'Initiative: Upgrade MKPMobile to Expo SDK 51', repo: R.mobile, findings: 3,
+  { id: 'expo', state: 'progress', type: 'Direct', title: 'Upgrade MKPMobile to Expo SDK 51', line1: 'Exposure: Upgrade MKPMobile to Expo SDK 51', repo: R.mobile, findings: 3,
     progress: { label: 'PR #412 ready for review', pct: null, sub: 'Due Aug 31 · Google Play target API', subTone: 'risk' },
     attention: { label: 'Waiting on code owner approval · 1 of 2', sub: 'Validation passed · 6 of 6 checks' },
     verification: [['pending', 'Verification pending']], action: 'Details' },
@@ -2545,11 +3457,11 @@ const EFFORTS = [
     progress: { label: '4 of 9 test tasks done', pct: 4 / 9, sub: 'Due Sep 20 · before the Node.js 20 re-validate' },
     attention: { label: 'Writing tests', sub: 'Unblocks Node.js 16 → 20 validation' },
     verification: [['none', 'No verification needed']], action: 'Details' },
-  { id: 'packages', state: 'progress', type: 'Direct', title: 'Patched npm packages', line1: 'Initiative: Modernize the Node.js services', repo: R.node, findings: 8,
+  { id: 'packages', state: 'progress', type: 'Direct', title: 'Patched npm packages', line1: 'Exposure: Modernize the Node.js services', repo: R.node, findings: 8,
     progress: { label: 'Step 1 of 2 · 5 of 8 packages updated', pct: 5 / 8, sub: 'Target Oct 4' },
     attention: { label: 'No action needed', sub: 'Step 2 starts after Node.js 20 merges' },
     verification: [['verified', 'Verified · 3 findings'], ['pending', 'Verification pending · 5']], action: 'Details' },
-  { id: 'angular', state: 'progress', type: 'Direct', title: 'Migrate payments-ui from AngularJS to React', line1: 'Initiative: Migrate payments-ui from AngularJS to React', repo: R.ui, findings: 3,
+  { id: 'angular', state: 'progress', type: 'Direct', title: 'Migrate payments-ui from AngularJS to React', line1: 'Exposure: Migrate payments-ui from AngularJS to React', repo: R.ui, findings: 3,
     progress: { label: 'Executing · phase 3 of 5', pct: 0.6, sub: 'Target Oct 21' },
     attention: { label: 'No action needed', sub: 'CM opens the PR after validation' },
     verification: [['executing', 'Executing']], action: 'Details' },
@@ -2571,7 +3483,7 @@ const EFFORTS = [
     verification: [['notstarted', 'Not started']], action: 'Details' },
 ];
 const COMPLETED_EFFORTS = [
-  { id: 'done-java8', state: 'done', type: 'Direct', title: 'Java 8 → 11 baseline', line1: 'Initiative: Java 11 baseline', repo: R.payments, findings: 4,
+  { id: 'done-java8', state: 'done', type: 'Direct', title: 'Java 8 → 11 baseline', line1: 'Exposure: Java 11 baseline', repo: R.payments, findings: 4,
     progress: { label: 'Merged · Aug 14', pct: 1, sub: 'PR #1610' }, attention: { label: 'Done', sub: 'Closed by Priya Raman' },
     verification: [['verified', 'Verified · 4 findings']], action: 'Details' },
   { id: 'done-token', state: 'done', type: 'Direct', title: 'Rotate leaked npm token', line1: 'Finding: npm token in .npmrc', repo: R.learning, findings: 1,
@@ -2623,6 +3535,52 @@ function EffortRow({ effort, expanded, onExpand, onNavigate }) {
     </td></tr>}
   </>;
 }
+// A campaign shown as a remediation effort: one branch and pull request per repository.
+const PR_SECONDS = 12;
+function campaignEffort(plan) {
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  const ids = planFindingIds(plan);
+  const findings = ESTATE_FINDINGS.filter((finding) => ids.includes(finding.id));
+  const repos = [...new Set(findings.map((finding) => finding.repo))];
+  const toReview = plan.toReview ?? Math.max(0, plan.itemIds.filter((id) => itemNeedsSkill(INITIATIVES.find((item) => item.id === id))).length - (plan.reviewed || []).length);
+  const opened = plan.startedAt ? Math.min(repos.length, Math.floor((Date.now() - plan.startedAt) / (PR_SECONDS * 1000))) : 0;
+  const linked = linkedRepos(repos);
+  const fixes = plan.itemIds.map((id) => stepShort(INITIATIVES.find((item) => item.id === id)));
+  const byStatus = {
+    generating: { state: 'progress', progress: { label: 'Creating campaign…', pct: null, sub: `Started ${ago(plan.createdAt || Date.now())}`, busy: true }, attention: { label: 'AWS Transform is matching TDs', sub: 'Drafting skills where none fit' }, verification: [['pending', 'Not started']], action: null },
+    review: { state: 'needs-you', progress: { label: `${plan.itemIds.length - toReview} of ${plan.itemIds.length} fixes ready`, pct: (plan.itemIds.length - toReview) / plan.itemIds.length, sub: `Created ${plan.createdAt ? ago(plan.createdAt) : plan.created}` }, attention: { label: `Review ${toReview} skill${toReview === 1 ? '' : 's'}`, sub: 'Nothing runs until you approve', tone: 'warn' }, verification: [['pending', 'Not started']], action: 'Review campaign' },
+    ready: { state: 'needs-you', progress: { label: 'Ready to start', pct: 1, sub: `${plural(repos.length, 'pull request')}, one per repository` }, attention: { label: 'Start when you’re ready', sub: linked.length >= 2 ? `Merge order matters: ${linked.join(', ')}` : 'Every fix is approved', tone: linked.length >= 2 ? 'warn' : '' }, verification: [['pending', 'Not started']], action: 'Start campaign' },
+    running: { state: 'progress', progress: { label: opened >= repos.length ? `All ${repos.length} pull requests open` : `${opened} of ${repos.length} pull requests open`, pct: Math.max(0.06, opened / repos.length), sub: `Started ${ago(plan.startedAt || Date.now())}` }, attention: { label: linked.length >= 2 ? 'Merge in dependency order' : opened >= repos.length ? 'Waiting on code owner review' : 'Validating each branch', sub: linked.length >= 2 ? linked.join(' → ') : 'PRs open as validation passes', tone: linked.length >= 2 ? 'warn' : '' }, verification: [['validating', 'Verifies at each merge']], action: 'View campaign' },
+  }[plan.status];
+  return { ...byStatus, id: plan.id, campaign: true, plan, type: 'Campaign', title: plan.name, line1: `Campaign: ${fixes.join(' · ')}`, repo: repos.join(' '), repos, findings: findings.length, opened, findingRows: findings };
+}
+function CampaignRow({ effort, expanded, onExpand, onNavigate }) {
+  const open = () => effort.action && openPlanById(onNavigate, effort.plan.id);
+  const branchState = (repo, index) => {
+    if (effort.plan.status !== 'running') return effort.plan.status === 'generating' ? 'Creating' : 'Not started';
+    return index < effort.opened ? 'Pull request open' : 'Validating';
+  };
+  return <>
+    <tr className={`rem-row campaign ${expanded ? 'expanded' : ''}`} onClick={open}>
+      <td className="item-toggle"><button type="button" aria-expanded={expanded} aria-label={`${expanded ? 'Hide' : 'Show'} branches for ${effort.title}`} onClick={(event) => { event.stopPropagation(); onExpand(); }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg></button></td>
+      <td className="rem-name"><button type="button" className="item-title" disabled={!effort.action} onClick={(event) => { event.stopPropagation(); open(); }}>{effort.title}</button><small>{effort.line1}</small><small className="item-muted">{effort.repos.length} {effort.repos.length === 1 ? 'repository' : 'repositories'} · {effort.findings} findings</small></td>
+      <td><span className="rem-type campaign">Campaign</span></td>
+      <td className="rem-progress">{effort.progress.busy ? <span className="campaign-busy"><span className="busy-dot" aria-hidden="true" />{effort.progress.label}</span> : <>{effort.progress.pct !== null && <span className="rem-bar"><i style={{ width: `${Math.round(effort.progress.pct * 100)}%` }} /></span>}<span>{effort.progress.label}</span></>}<small>{effort.progress.sub}</small></td>
+      <td><span className={`rem-attention ${effort.attention.tone || ''}`}>{effort.attention.label}</span><small className="item-muted">{effort.attention.sub}</small></td>
+      <td className="rem-verify">{effort.verification.map(([icon, label]) => <span key={label}><VerifyIcon name={icon} />{label}</span>)}</td>
+      <td className="rem-actions">{effort.action && <button type="button" className={`rem-small-button ${effort.state === 'needs-you' ? 'primary' : ''}`} onClick={(event) => { event.stopPropagation(); open(); }}>{effort.action.replace(' campaign', '')}</button>}</td>
+    </tr>
+    {expanded && <tr className="rem-expanded"><td /><td colSpan={6}>
+      <ul className="campaign-branches">{effort.repos.map((repo, index) => <li key={repo}>
+        <code>atx/remediate-{slugOf(repo)}</code><span>{repo}</span>
+        <span className="dash-muted">{effort.findingRows.filter((finding) => finding.repo === repo).length} findings</span>
+        <span className={`campaign-branch-state ${branchState(repo, index) === 'Pull request open' ? 'ok' : ''}`}>{branchState(repo, index)}</span>
+      </li>)}</ul>
+    </td></tr>}
+  </>;
+}
+const REM_TYPES = ['Campaign', 'Direct', 'Enabling', 'Preparation'];
+const REM_STATES = [['needs-you', 'Needs you', 'Campaigns waiting on your review or start'], ['failed', 'Failed', 'Stopped — retry once the cause is fixed'], ['progress', 'In progress', 'CM is working on these']];
 function effortFindings(effort) {
   const byInitiative = { expo: 'expo', angular: 'angular', packages: 'node' };
   if (byInitiative[effort.id]) return ESTATE_FINDINGS.filter((item) => item.initiative === byInitiative[effort.id]).filter((item) => effort.id !== 'packages' || /package|lodash|moment|request|fetch|lockfile|express|jsonwebtoken|Unused/i.test(item.title));
@@ -2631,33 +3589,41 @@ function effortFindings(effort) {
 }
 
 function RailRemediations({ onNavigate }) {
+  const work = useWork();
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  // Running campaigns open pull requests over time; re-render while anything is moving.
+  const [, setNow] = useState(0);
+  const moving = work.plans.some((plan) => ['generating', 'running'].includes(plan.status));
+  useEffect(() => { if (!moving) return undefined; const timer = window.setInterval(() => setNow((tick) => tick + 1), 2000); return () => window.clearInterval(timer); }, [moving]);
+  const campaigns = work.plans.map(campaignEffort);
   const [tab, setTab] = useState('active');
   const [type, setType] = useState('All');
   const [state, setState] = useState('All');
   const [query, setQuery] = useState('');
   const [expanded, setExpanded] = useState(() => new Set());
-  const list = tab === 'active' ? EFFORTS : COMPLETED_EFFORTS;
+  const list = tab === 'active' ? [...campaigns, ...EFFORTS] : COMPLETED_EFFORTS;
   const typeCount = (name) => list.filter((item) => name === 'All' || item.type === name).length;
-  const stateCount = (name) => EFFORTS.filter((item) => name === 'All' || item.state === name).length;
+  const stateCount = (name) => [...campaigns, ...EFFORTS].filter((item) => name === 'All' || item.state === name).length;
   const shown = list.filter((item) => (type === 'All' || item.type === type) && (tab !== 'active' || state === 'All' || item.state === state)
     && (!query || `${item.title} ${item.line1} ${item.repo}`.toLowerCase().includes(query.toLowerCase())));
   const toggle = (id) => setExpanded((set) => { const next = new Set(set); if (next.has(id)) next.delete(id); else next.add(id); return next; });
   const failed = EFFORTS.filter((item) => item.state === 'failed');
-  const typesLine = EFFORT_TYPES.map((name) => `${EFFORTS.filter((item) => item.type === name).length} ${name}`).join(' · ');
-  const groups = tab === 'active' ? EFFORT_STATES.map(([key, label, note]) => ({ key, label, note, items: shown.filter((item) => item.state === key) })) : [{ key: 'done', label: 'Completed this quarter', note: 'Verified counts only findings CM re-checked at the merge commit', items: shown }];
+  const activeCount = campaigns.length + EFFORTS.length;
+  const typesLine = REM_TYPES.map((name) => [name, [...campaigns, ...EFFORTS].filter((item) => item.type === name).length]).filter(([, n]) => n).map(([name, n]) => `${n} ${name === 'Campaign' ? `campaign${n === 1 ? '' : 's'}` : name}`).join(' · ');
+  const groups = tab === 'active' ? REM_STATES.map(([key, label, note]) => ({ key, label, note, items: shown.filter((item) => item.state === key) })) : [{ key: 'done', label: 'Completed this quarter', note: 'Verified counts only findings CM re-checked at the merge commit', items: shown }];
   const segmented = (label, value, onChange, options) => <div className="rem-filter"><span>{label}</span><div className="rem-segmented" role="group" aria-label={label}>{options.map(([key, text, count]) => <button key={key} type="button" aria-pressed={value === key} className={value === key ? 'active' : ''} onClick={() => onChange(key)}>{text}{count !== undefined && <small>{count}</small>}</button>)}</div></div>;
   return <RailShell active="Remediations" onNavigate={onNavigate}>
     <div className="dash-title"><div><h1>Remediations</h1><p>Every remediation effort in flight: what’s stuck, what’s moving and what has been verified at the merge commit.</p></div></div>
     <div className="dash-stats rem-stats">
-      <section className="dash-card dash-stat"><span>Active efforts</span><strong>{EFFORTS.length}</strong><small>{typesLine}</small></section>
-      <section className="dash-card dash-stat"><span>Failed</span><strong className={failed.length ? 'rem-risk' : ''}>{failed.length} <em>of {EFFORTS.length}</em></strong><small>{failed[0] ? `${failed[0].title} · validation failed` : 'Nothing failed'}</small></section>
+      <section className="dash-card dash-stat"><span>Active efforts</span><strong>{activeCount}</strong><small>{typesLine}</small></section>
+      <section className="dash-card dash-stat"><span>Failed</span><strong className={failed.length ? 'rem-risk' : ''}>{failed.length} <em>of {activeCount}</em></strong><small>{failed[0] ? `${failed[0].title} · validation failed` : 'Nothing failed'}</small></section>
       <section className="dash-card dash-stat"><span>Verified at the merge commit · this quarter</span><strong>41 <em>findings</em></strong><small>3 from active efforts · 38 from completed ones</small></section>
       <section className="dash-card dash-stat"><span>Inferred, not counted</span><strong>1</strong><small>Gone on a later scan, no targeted check</small></section>
     </div>
-    <div className="rem-tabs" role="tablist">{[['active', 'Active', EFFORTS.length], ['done', 'Completed this quarter', COMPLETED_EFFORTS.length]].map(([key, label, count]) => <button key={key} type="button" role="tab" aria-selected={tab === key} className={tab === key ? 'active' : ''} onClick={() => { setTab(key); setState('All'); setType('All'); }}>{label}<span>{count}</span></button>)}</div>
+    <div className="rem-tabs" role="tablist">{[['active', 'Active', activeCount], ['done', 'Completed this quarter', COMPLETED_EFFORTS.length]].map(([key, label, count]) => <button key={key} type="button" role="tab" aria-selected={tab === key} className={tab === key ? 'active' : ''} onClick={() => { setTab(key); setState('All'); setType('All'); }}>{label}<span>{count}</span></button>)}</div>
     <div className="rem-filters">
-      {segmented('Type', type, setType, [['All', 'All', typeCount('All')], ...EFFORT_TYPES.map((name) => [name, name, typeCount(name)])])}
-      {tab === 'active' && segmented('State', state, setState, [['All', 'All'], ...EFFORT_STATES.map(([key, label]) => [key, label, stateCount(key)])])}
+      {segmented('Type', type, setType, [['All', 'All', typeCount('All')], ...REM_TYPES.filter((name) => name !== 'Campaign' || campaigns.length).map((name) => [name, name, typeCount(name)])])}
+      {tab === 'active' && segmented('State', state, setState, [['All', 'All'], ...REM_STATES.filter(([key]) => stateCount(key)).map(([key, label]) => [key, label, stateCount(key)])])}
       <label className="findings-search rem-search"><Icon name="search" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search remediations" aria-label="Search remediations" /></label>
     </div>
     <section className="dash-card items-card">
@@ -2666,7 +3632,9 @@ function RailRemediations({ onNavigate }) {
         <thead><tr><th className="item-toggle" /><th>Remediation</th><th>Type</th><th>Progress</th><th>Attention · dependency</th><th>Verification</th><th><span className="sr-only">Action</span></th></tr></thead>
         <tbody>{groups.filter((group) => group.items.length).map((group) => [
           <tr key={group.key} className="item-group"><td colSpan={7}><strong>{group.label}</strong><span>{group.items.length} · {group.note}</span></td></tr>,
-          ...group.items.map((effort) => <EffortRow key={effort.id} effort={effort} expanded={expanded.has(effort.id)} onExpand={() => toggle(effort.id)} onNavigate={onNavigate} />),
+          ...group.items.map((effort) => (effort.campaign
+            ? <CampaignRow key={effort.id} effort={effort} expanded={expanded.has(effort.id)} onExpand={() => toggle(effort.id)} onNavigate={onNavigate} />
+            : <EffortRow key={effort.id} effort={effort} expanded={expanded.has(effort.id)} onExpand={() => toggle(effort.id)} onNavigate={onNavigate} />)),
         ])}</tbody>
       </table></div>
       {shown.length === 0 && <div className="findings-empty"><strong>No remediations match</strong><button type="button" className="dash-link" onClick={() => { setType('All'); setState('All'); setQuery(''); }}>Clear filters</button></div>}
@@ -2912,7 +3880,7 @@ function RailAuthorize({ onNavigate }) {
   const kindChip = isStandalone(item) ? 'Direct remediation' : item.kind;
   const choose = (value) => { setOverride(value); setMenuOpen(false); if (value) pathOverrides[item.id] = value; else delete pathOverrides[item.id]; };
   const authorize = () => {
-    EFFORTS.unshift({ id: `auth-${item.id}`, state: 'progress', type: 'Direct', title: item.title, line1: isStandalone(item) ? `Finding: ${rows[0]?.title}` : `Initiative: ${item.title}`, repo, findings: rows.length,
+    EFFORTS.unshift({ id: `auth-${item.id}`, state: 'progress', type: 'Direct', title: item.title, line1: isStandalone(item) ? `Finding: ${rows[0]?.title}` : `Exposure: ${item.title}`, repo, findings: rows.length,
       progress: { label: 'Generating the change', pct: 0.05, sub: `Resolve by ${resolveBy}` }, attention: { label: 'No action needed', sub: 'CM opens the PR after validation' }, verification: [['pending', 'Verification pending']], action: 'Details' });
     item.stage = 'progress'; item.readiness = 'applying'; item.verified = `0 of ${rows.length} verified`;
     rows.forEach((finding) => { finding.status = 'In remediation'; });
@@ -3092,7 +4060,7 @@ function RailAnalysisDetail({ onNavigate }) {
   const done = run.status === 'completed';
   const stages = (index) => (done ? 5 : run.status === 'queued' ? 0 : Math.min(5, Math.max(1, Math.round(run.progress * 5) - (index % 2))));
   const download = ([, , file]) => { const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([`${run.name}\n${file}\n`], { type: 'text/plain' })); link.download = file; link.click(); };
-  const activity = [['9:26 AM', `Started by ${run.by}${run.schedule ? ' · weekly schedule' : ''}`], ['9:27 AM', `Inventory discovered ${run.repos.length} repositor${run.repos.length === 1 ? 'y' : 'ies'} · 214k lines of code`], ['9:31 AM', 'Detectors running: dependency analysis, runtime and framework versions'], ['9:41 AM', `${total} findings generated · 3 new since the last run`], ['9:45 AM', done ? 'Completed · results published to Findings' : 'In progress'], ['9:46 AM', 'Findings grouped into initiatives']];
+  const activity = [['9:26 AM', `Started by ${run.by}${run.schedule ? ' · weekly schedule' : ''}`], ['9:27 AM', `Inventory discovered ${run.repos.length} repositor${run.repos.length === 1 ? 'y' : 'ies'} · 214k lines of code`], ['9:31 AM', 'Detectors running: dependency analysis, runtime and framework versions'], ['9:41 AM', `${total} findings generated · 3 new since the last run`], ['9:45 AM', done ? 'Completed · results published to Findings' : 'In progress'], ['9:46 AM', 'Findings grouped into exposures']];
   return <RailShell active="Analyses" onNavigate={onNavigate}>
     <nav className="rem-breadcrumb" aria-label="Breadcrumb"><button type="button" onClick={() => onNavigate('improved-rail-analyses')}>Analyses</button><span>›</span><span>{run.name}</span></nav>
     <div className="dash-title"><div><h1 className="an-detail-title">{run.name} <RunStatus status={run.status} /></h1>
@@ -3326,6 +4294,8 @@ export default function App() {
   if (route === 'improved-rail-analysis') return <RailAnalysisDetail key={pendingRun || 'portfolio-baseline'} onNavigate={navigateImproved} />;
   if (route === 'improved-rail-skill') return <RailSkillReview key={pendingSkill?.id || 'skill'} onNavigate={navigateImproved} />;
   if (route === 'improved-rail-authorize') return <RailAuthorize key={pendingAuthorize || 'authorize'} onNavigate={navigateImproved} />;
+  if (route === 'improved-rail-plan') return <><RailItemsPlan onNavigate={navigateImproved} />{mockupSwitcher}</>;
+  if (route === 'improved-rail-repo-plan') return <><RailRepoPlan onNavigate={navigateImproved} />{mockupSwitcher}</>;
   if (route === 'improved-rail-run-analysis') return <><RailRunAnalysis onNavigate={navigateImproved} />{mockupSwitcher}</>;
   if (route === 'improved-priorities') return <><ImprovedPriorities onNavigate={navigateImproved} />{mockupSwitcher}</>;
   if (route === 'improved-analysis') return <><ImprovedAnalysisProgress onNavigate={navigateImproved} />{mockupSwitcher}</>;
